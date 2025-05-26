@@ -1,0 +1,68 @@
+import { View, Text, StyleSheet, Image } from "react-native";
+import { Stack } from "expo-router";
+import HeaderBackButton from "@/components/HeaderBackButton";
+import Constants from 'expo-constants';
+import packageJson from '@/../package.json';
+
+export default function About() {
+    const appName = Constants.expoConfig?.name || 'OFCApp';
+    const appVersion = packageJson.version || '0.0.0';
+    const appDescription = Constants.expoConfig?.description || `Welcome!`;
+
+    return (
+        <View style={styles.container}>
+            <Stack.Screen
+                options={{
+                    title: `About ${appName}`,
+                    headerLeft: () => <HeaderBackButton />,
+                }}
+            />
+            <Image source={require('@/../assets/icon.png')} style={styles.logo} />
+            <Text style={styles.title}>{appName}</Text>
+            <Text style={styles.version}>Version {appVersion}</Text>
+            <Text style={styles.description}>
+                {appDescription}
+            </Text>
+            <Text style={styles.footer}>© {new Date().getFullYear()} {appName} Team</Text>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+        backgroundColor: '#f5f5f5',
+    },
+    logo: {
+        width: 100,
+        height: 100,
+        marginBottom: 20,
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: '#333',
+    },
+    version: {
+        fontSize: 16,
+        color: '#666',
+        marginBottom: 20,
+    },
+    description: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: '#444',
+        marginBottom: 30,
+        lineHeight: 24,
+    },
+    footer: {
+        fontSize: 12,
+        color: '#888',
+        position: 'absolute',
+        bottom: 20,
+    }
+});

@@ -1,0 +1,5 @@
+# Cline Rules
+
+## Component Style
+- Use `export default function` style for component.
+- `src` directory can be used as `@` alias.

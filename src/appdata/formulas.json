@@ -1,0 +1,121 @@
+[
+    {
+        "name": "kcrt-egg",
+        "title": "少量 → 鶏卵 1/2 個",
+        "shorttitle": "Half egg step up",
+        "info": "2018, Kyohei Takahashi",
+        "foodtype": "egg",
+        "references": [
+            "doi:10.1016/j.jaip.2018.07.043"
+        ],
+        "inputs": [
+            {
+                "name": "sex",
+                "type": "sex"
+            },
+            {
+                "name": "age",
+                "type": "age"
+            },
+            {
+                "name": "IgE",
+                "type": "IgE"
+            },
+            {
+                "name": "EW",
+                "type": "sIgE",
+                "caption": "卵白"
+            },
+            {
+                "name": "OVM",
+                "type": "sIgE",
+                "caption": "オボムコイド",
+                "mode": "primary"
+            },
+            {
+                "name": "AD",
+                "type": "boolean",
+                "caption": "アトピー性皮膚炎"
+            },
+            {
+                "name": "BA",
+                "type": "boolean",
+                "caption": "気管支喘息"
+            },
+            {
+                "name": "AR",
+                "type": "boolean",
+                "caption": "アレルギー性鼻炎"
+            }
+        ],
+        "output": {
+            "mode": "ofc",
+            "result": {
+                "mode": "logistic",
+                "intercept": 0.09359,
+                "beta": {
+                    "female": -0.10236,
+                    "age": 0.16114,
+                    "LogIgE": -0.85341,
+                    "LogEW": 0.01091,
+                    "LogOVM": 1.76662,
+                    "BA": 0.16832,
+                    "AD": 0.17158,
+                    "AR": 0.27756
+                }
+            }
+        }
+    },
+    {
+        "name": "yanagida-fage3",
+        "title": "ソバ OFC (Fag e 3)",
+        "shorttitle": "Buckwheat by Fag e 3",
+        "info": "Yanagida N, Sato S, Maruyama N, et al. Specific IgE for Fag e 3 Predicts Oral Buckwheat Food Challenge Test Results and Anaphylaxis: A Pilot Study. Int Arch Allergy Immunol. 2018;176(1). doi:10.1159/000487135",
+        "foodtype": "other",
+        "references": [],
+        "inputs": [
+            {
+                "name": "FagE3",
+                "type": "sIgE",
+                "caption": "Fag e 3",
+                "mode": "primary"
+            }
+        ],
+        "output": {
+            "mode": "ofc",
+            "result": {
+                "mode": "logistic",
+                "intercept": 0.1946,
+                "beta": {
+                    "LogFagE3": 2.1894
+                }
+            }
+        }
+    },
+    {
+        "name": "yanagida-ikra",
+        "title": "イクラ OFC",
+        "shorttitle": "Ikra",
+        "info": "Yanagida N, Minoura T, Takahashi K, Sato S, Ebisawa M. Salmon roe-specific serum IgE predicts oral salmon roe food challenge test results. Pediatr Allergy Immunol. 2016;27(3):324-327. doi:10.1111/pai.12531",
+        "foodtype": "other",
+        "references": [],
+        "inputs": [
+            {
+                "name": "Ikra",
+                "type": "sIgE",
+                "caption": "イクラ",
+                "mode": "primary"
+            }
+        ],
+        "output": {
+            "mode": "ofc",
+            "result": {
+                "mode": "logistic",
+                "intercept": -0.4453,
+                "beta": {
+                    "LogIkra": 2.2022
+                }
+            }
+        }
+    }
+]
