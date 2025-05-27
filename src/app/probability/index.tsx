@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, Stack } from 'expo-router';
 import formulas, { type Formula } from '@/utils/formulas';
+import { getDisplayString } from '@/utils/i18n';
 
 export default function ProbabilityPage() {
   const renderItem = ({ item }: { item: Formula }) => (
-    <Link href={`/formula/${item.name}`} asChild>
+    <Link href={`/probability/${item.name}`} asChild>
       <TouchableOpacity style={styles.itemContainer}>
-        <Text style={styles.itemTitle}>{item.title}</Text>
+        <Text style={styles.itemTitle}>{getDisplayString(item.title)}</Text>
         <Text style={styles.itemShortTitle}>{item.shorttitle}</Text>
       </TouchableOpacity>
     </Link>
@@ -15,9 +16,10 @@ export default function ProbabilityPage() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Available Formulas</Text>
+      <Stack.Screen options={{ title: 'Probability Curves' }} />
+      <Text style={styles.header}>Available Curves</Text>
       <FlatList
-        data={formulas}
+        data={formulas.filter((f) => f.output.mode === "ofc")}
         renderItem={renderItem}
         keyExtractor={(item) => item.name}
         style={styles.list}

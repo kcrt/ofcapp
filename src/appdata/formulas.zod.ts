@@ -25,8 +25,6 @@ const FoodTypeSchema = z.enum([
   "other"
 ]);
 
-const InputItemSchema = z.tuple([z.string(), z.number()]);
-
 const InputItemSexSchema = z.object({
   name: z.string(),
   type: z.literal("sex")
@@ -53,7 +51,7 @@ const InputItemSpecificIgESchema = z.object({
   mode: z.literal("primary").optional(),
 });
 
-const InputSchema = z.union([
+const InputItemSchema = z.union([
   InputItemSexSchema,
   InputItemAgeSchema,
   InputItemBooleanSchema,
@@ -61,14 +59,22 @@ const InputSchema = z.union([
   InputItemSpecificIgESchema
 ]);
 
+export type InputItemType = z.infer<typeof InputItemSchema>;
+
+const CalcItemSchema = z.object({
+  name: z.string(),
+  expression: z.string(),
+});
+
 const ResultSchema = z.object({
   mode: z.string(),
+  graph: z.literal("hide").optional(),
   intercept: z.number(),
   beta: z.record(z.string(), z.number()),
 });
 
 const OutputSchema = z.object({
-  mode: z.string(),
+  mode: z.enum(["ofc", "ed", "formula"]),
   result: ResultSchema,
 });
 
@@ -76,23 +82,13 @@ const FormulaSchema = z.object({
   name: z.string(),
   title: MultilangStringSchema,
   shorttitle: z.string(),
-  info: z.string(),
+  info: z.string().optional(),
+  note: MultilangStringSchema.optional(),
   foodtype: FoodTypeSchema,
-  references: z.array(z.string()),
-  inputs: z.array(InputSchema),
+  references: z.record(z.string(), z.string()),
+  inputs: z.array(InputItemSchema),
+  calc: z.array(CalcItemSchema).optional(),
   output: OutputSchema,
 });
 
 export const FormulasSchema = z.array(FormulaSchema);
-
-// Example usage (optional, for testing or demonstration):
-/*
-import formulasData from './formulas.json';
-
-try {
-  const parsedFormulas = FormulasSchema.parse(formulasData);
-  console.log("Successfully parsed formulas:", parsedFormulas);
-} catch (error) {
-  console.error("Error parsing formulas.json:", error);
-}
-*/

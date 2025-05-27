@@ -3,3 +3,7 @@
 ## Component Style
 - Use `export default function` style for component.
 - `src` directory can be used as `@` alias.
+- If the code can be reusable, please use `@/utils` to put the code for reuse.
+- Find `@/utils` to avoid code duplication.
+- Write comment for what the code block does. You should avoid writing comment for what the code does, but why it does.
+- You should avoid writing comment for code change like // this line was added.

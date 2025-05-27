@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity, Platform, View, Dimensions } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, Platform, View, Dimensions, Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -16,22 +16,20 @@ interface SquareButtonProps {
 
 export default function SquareButton({ title, href, iconName, size, disabled }: SquareButtonProps) {
   const currentButtonSize = size || defaultButtonSize;
-  const buttonContent = (
-    <TouchableOpacity style={[styles.button, { width: currentButtonSize, height: currentButtonSize }, disabled && styles.disabledButton]} disabled={disabled}>
+  const buttonContent = <TouchableOpacity style={{...styles.button, ...{width: currentButtonSize, height: currentButtonSize}}} disabled={disabled}>
       <Ionicons name={iconName} size={currentButtonSize * 0.4} color={disabled ? "#aaaaaa" : "#333333"} />
       <Text style={[styles.buttonText, disabled && styles.disabledButtonText]}>{title}</Text>
-    </TouchableOpacity>
-  );
+    </TouchableOpacity>;
 
   if (disabled) {
     return buttonContent;
-  }
-
-  return (
-    <Link href={href}>
-      {buttonContent}
-    </Link>
-  );
+  }else{
+    return (
+      <Link push href={href} asChild>
+        {buttonContent}
+      </Link>
+    );
+    }
 }
 
 const styles = StyleSheet.create({

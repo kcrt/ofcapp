@@ -1,13 +1,16 @@
 [
     {
         "name": "kcrt-egg",
-        "title": "少量 → 鶏卵 1/2 個",
+        "title": {
+            "en": "Hen's egg step-up from 1g to 1/2 egg",
+            "ja": "鶏卵 1-2g から 1/2 個へステップアップ"
+        },
         "shorttitle": "Half egg step up",
         "info": "2018, Kyohei Takahashi",
         "foodtype": "egg",
-        "references": [
-            "doi:10.1016/j.jaip.2018.07.043"
-        ],
+        "references": {
+            "Takahashi, 2018": "doi:10.1016/j.jaip.2018.07.043"
+        },
         "inputs": [
             {
                 "name": "sex",
@@ -24,28 +27,28 @@
             {
                 "name": "EW",
                 "type": "sIgE",
-                "caption": "卵白"
+                "caption": "Egg white"
             },
             {
                 "name": "OVM",
                 "type": "sIgE",
-                "caption": "オボムコイド",
+                "caption": "Ovomucoid",
                 "mode": "primary"
             },
             {
                 "name": "AD",
                 "type": "boolean",
-                "caption": "アトピー性皮膚炎"
+                "caption": "Atopic dermatitis"
             },
             {
                 "name": "BA",
                 "type": "boolean",
-                "caption": "気管支喘息"
+                "caption": "Bronchial asthma"
             },
             {
                 "name": "AR",
                 "type": "boolean",
-                "caption": "アレルギー性鼻炎"
+                "caption": "Allergic rhinitis"
             }
         ],
         "output": {
@@ -67,12 +70,38 @@
         }
     },
     {
-        "name": "yanagida-fage3",
-        "title": "ソバ OFC (Fag e 3)",
-        "shorttitle": "Buckwheat by Fag e 3",
-        "info": "Yanagida N, Sato S, Maruyama N, et al. Specific IgE for Fag e 3 Predicts Oral Buckwheat Food Challenge Test Results and Anaphylaxis: A Pilot Study. Int Arch Allergy Immunol. 2018;176(1). doi:10.1159/000487135",
+        "name": "yanagida-bw",
+        "title": "Buckwheat OFC",
+        "shorttitle": "Buckwheat",
+        "note": "Please note that reactions of buckwheat are rare, but often anaphylactic.",
         "foodtype": "other",
-        "references": [],
+        "references": {"Yanagida, 2016": "doi:10.1111/pai.12531"},
+        "inputs": [
+            {
+                "name": "BW",
+                "type": "sIgE",
+                "caption": "Buckwheat",
+                "mode": "primary"
+            }
+        ],
+        "output": {
+            "mode": "ofc",
+            "result": {
+                "mode": "logistic",
+                "intercept": -2.8040,
+                "beta": {
+                    "LogBW": 0.9444
+                }
+            }
+        }
+    },
+    {
+        "name": "yanagida-bw-fage3",
+        "title": "Buckwheat OFC (Fag e 3)",
+        "shorttitle": "Buckwheat by Fag e 3",
+        "info": "",
+        "foodtype": "other",
+        "references": {"Yanagida, 2016": "doi:10.1111/pai.12531"},
         "inputs": [
             {
                 "name": "FagE3",
@@ -94,16 +123,17 @@
     },
     {
         "name": "yanagida-ikra",
-        "title": "イクラ OFC",
+        "title": "Ikra (Salmon roe) 10g OFC",
         "shorttitle": "Ikra",
-        "info": "Yanagida N, Minoura T, Takahashi K, Sato S, Ebisawa M. Salmon roe-specific serum IgE predicts oral salmon roe food challenge test results. Pediatr Allergy Immunol. 2016;27(3):324-327. doi:10.1111/pai.12531",
+        "info": "",
+        "note": "10g of raw salmon roe (3250mgPro) is equal to amount in one sushi roll",
         "foodtype": "other",
-        "references": [],
+        "references": {"Yanagida, 2016": "doi:10.1111/pai.12531"},
         "inputs": [
             {
                 "name": "Ikra",
                 "type": "sIgE",
-                "caption": "イクラ",
+                "caption": "ikra (salmon roe)",
                 "mode": "primary"
             }
         ],
@@ -114,6 +144,46 @@
                 "intercept": -0.4453,
                 "beta": {
                     "LogIkra": 2.2022
+                }
+            }
+        }
+    },
+    {
+        "name": "makita-pollock",
+        "title": "Tarako (Pollock roe) 10g OFC",
+        "shorttitle": "Tarako",
+        "info": "",
+        "note": "10-20g of pollock roe is used for OFC. Small patient numbers.",
+        "foodtype": "other",
+        "references": {"Makita, 2017": "doi:10.1016/j.alit.2017.11.005"},
+        "inputs": [
+            {
+                "name": "Tarako",
+                "type": "sIgE",
+                "caption": "tarako (pollock roe)",
+                "mode": "primary"
+            },
+            {
+                "name": "Ikra",
+                "type": "sIgE",
+                "caption": "ikra (salmon roe)"
+            }
+        ],
+        "calc": [
+            {
+            "name": "TarakoIkuraRatio",
+            "expression": "Tarako / Ikra"
+            }
+        ],
+        "output": {
+            "mode": "ofc",
+            "result": {
+                "mode": "logistic",
+                "graph": "hide",
+                "intercept": -3.2091,
+                "beta": {
+                    "LogTarako": 0.000,
+                    "TarakoIkuraRatio": 1.6542
                 }
             }
         }

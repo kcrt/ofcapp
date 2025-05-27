@@ -1,7 +1,9 @@
 {
   "expo": {
-    "name": "ofcapp",
+    "name": "OFCApp",
+    "description": "An app for Oral food challenges",
     "slug": "ofcapp",
+    "scheme": "ofcapp",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

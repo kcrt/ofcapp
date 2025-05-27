@@ -7,14 +7,13 @@ import packageJson from '@/../package.json';
 export default function About() {
     const appName = Constants.expoConfig?.name || 'OFCApp';
     const appVersion = packageJson.version || '0.0.0';
-    const appDescription = Constants.expoConfig?.description || `Welcome!`;
+    const appDescription = Constants.expoConfig?.description || 'Thank you for using our app!';
 
     return (
         <View style={styles.container}>
             <Stack.Screen
                 options={{
                     title: `About ${appName}`,
-                    headerLeft: () => <HeaderBackButton />,
                 }}
             />
             <Image source={require('@/../assets/icon.png')} style={styles.logo} />
