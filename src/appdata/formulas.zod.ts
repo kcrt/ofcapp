@@ -1,11 +1,5 @@
 import { z } from 'zod';
-
-const MultilangStringSchema = z.union([
-  z.string(),
-  z.object({
-    en: z.string(),
-  })
-]);
+import { MultilangStringSchema } from '@/utils/i18n';
 
 const FoodTypeSchema = z.enum([
   "egg",
