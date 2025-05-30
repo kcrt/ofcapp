@@ -19,29 +19,31 @@ interface AxisLabel {
 
 interface GraphAreaProps {
   points: Point[];
-  minLogSIgE: number;
-  maxLogSIgE: number;
+  minXValue: number; // Changed from minLogSIgE
+  maxXValue: number; // Changed from maxLogSIgE
+  xAxisLabel?: string; // New prop for dynamic x-axis label
   chartHeight?: number;
   chartPadding?: number;
   screenWidth?: number;
-  highlightPoint?: Point | null; // New prop for the point to highlight
+  highlightPoint?: Point | null;
 }
 
 export default function GraphArea({
   points,
-  minLogSIgE,
-  maxLogSIgE,
+  minXValue, // Changed
+  maxXValue, // Changed
+  xAxisLabel = "Value", // Default X-axis label
   chartHeight = defaultChartHeight,
   chartPadding = defaultChartPadding,
   screenWidth: propScreenWidth = screenWidth,
-  highlightPoint = null, // Destructure with a default
+  highlightPoint = null,
 }: GraphAreaProps) {
   const chartUsableWidth = propScreenWidth - 2 * chartPadding;
   const chartUsableHeight = chartHeight - 2 * chartPadding;
 
   // Helper function to convert data points to SVG coordinates
   const convertDataPointToSvgPoint = (point: Point): { xPos: number; yPos: number } => {
-    const xPos = chartPadding + ((point.x - minLogSIgE) / (maxLogSIgE - minLogSIgE)) * chartUsableWidth;
+    const xPos = chartPadding + ((point.x - minXValue) / (maxXValue - minXValue)) * chartUsableWidth; // Changed
     const yPos = chartPadding + chartUsableHeight - point.y * chartUsableHeight;
     return { xPos, yPos };
   };
@@ -55,15 +57,15 @@ export default function GraphArea({
     .join(' ');
 
   // X-axis labels
-  const numXLabels = 5; 
+  const numXLabels = 5;
   const xAxisLabels: AxisLabel[] = [];
   for (let i = 0; i <= numXLabels; i++) {
-    const xValue = minLogSIgE + i * ((maxLogSIgE - minLogSIgE) / numXLabels);
+    const xValue = minXValue + i * ((maxXValue - minXValue) / numXLabels); // Changed
     // For x-axis labels, y-coordinate in data terms is irrelevant for xPos calculation.
     // We only need xPos from the conversion.
-    const { xPos } = convertDataPointToSvgPoint({ x: xValue, y: 0 }); 
+    const { xPos } = convertDataPointToSvgPoint({ x: xValue, y: 0 });
     xAxisLabels.push({
-      value: Math.pow(10, xValue).toFixed(xValue > 0 ? 0 : 2),
+      value: Math.pow(10, xValue).toFixed(xValue >= 0 ? (xValue < 1 && xValue > -1 && xValue !== 0 ? 2 : 0) : 2), // Adjusted precision
       x: xPos,
       y: chartHeight - chartPadding + 15,
     });
@@ -142,7 +144,7 @@ export default function GraphArea({
     fill="black"
     textAnchor="middle"
   >
-    sIgE (kUA/L)
+    {xAxisLabel}
   </SvgText>
 
   {/* Y-axis */}
@@ -196,7 +198,3 @@ export default function GraphArea({
     </Svg>
   );
 }
-
-// No specific styles needed here if Svg is self-contained, 
-// but you could add a container style if GraphArea itself needs layout styling.
-// const styles = StyleSheet.create({});

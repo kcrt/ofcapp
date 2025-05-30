@@ -58,10 +58,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8, // Space between icon and text
   },
-  disabledButton: {
-    backgroundColor: '#eeeeee',
-    opacity: 0.7,
-  },
   disabledButtonText: {
     color: '#aaaaaa',
   },

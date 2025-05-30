@@ -1,63 +1,68 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView, TextInput, Switch, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, Button } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 
 // Define a maximum width for the page content
 const PAGE_MAX_WIDTH = 600;
-// Svg, Path, Line, Text as SvgText are no longer directly used here
-import formulas, { type Formula } from '@/utils/formulas';
+import formulas from '@/utils/formulas';
 import ErrorMessagePage from '@/components/ErrorMessagePage';
 import GraphArea from '@/components/GraphArea'; // Import the new component
-import UserInputs from '@/components/UserInputs'; // Import the new UserInputs component
+import FactorInputController from '@/components/FactorInputController'; // Import the new FactorInputController component
 import { type InputItemType as FormulaInputSchema } from '@/appdata/formulas.zod';
 import { getDisplayString } from '@/utils/i18n';
 import { parseReferenceLink, openLink } from '@/utils/links';
 import { calculateAdjustedIntercept } from '@/utils/calculationHelpers'; // Import the new helper
+import logistic from '@/utils/mathHelpers'; // Import the logistic function
 
-// Logistic function
-function logistic (intercept: number, beta: number, x: number): number{
-  return 1 / (1 + Math.exp(-(intercept + beta * x)));
-};
+// Component for selecting the primary factor
+interface PrimaryFactorSelectorProps {
+  primaryFactorCandidates: FormulaInputSchema[];
+  selectedPrimaryFactorName?: string;
+  onSelectPrimaryFactor: (name: string) => void;
+}
 
-const DEFAULT_AGE = 5; // years
-const DEFAULT_TOTAL_IGE = 100; // IU/mL
-const DEFAULT_SIGE = 1.0; // kUA/L
-const DEFAULT_PROTEINDOSE = 100.0; // protein dose [mg]
-
-function getInitialFactorStates(inputs: FormulaInputSchema[]): { [key: string]: any } {
-  const states: { [key: string]: any } = {};
-  const defaultValues = {
-    "boolean": false,
-    "age": DEFAULT_AGE.toString(),
-    "IgE": DEFAULT_TOTAL_IGE.toString(),
-    "sIgE": DEFAULT_SIGE.toString(),
-    "sex": false,
-    "proteindose": DEFAULT_PROTEINDOSE.toString() // Added default for proteindose
+function PrimaryFactorSelector({
+  primaryFactorCandidates,
+  selectedPrimaryFactorName,
+  onSelectPrimaryFactor,
+}: PrimaryFactorSelectorProps) {
+  if (primaryFactorCandidates.length <= 1) {
+    return null; // No need to select if only one or none
   }
-  inputs.forEach(input => {
-    if(defaultValues.hasOwnProperty(input.type)) {
-      states[input.name] = defaultValues[input.type];
-    }else{
-      console.warn(`Unknown default value for input type: ${input.type} (name: ${input.name})`)
-    }
-  });
-  return states;
-};
+  return (
+    <View style={styles.selectorContainer}>
+      <Text style={styles.selectorLabel}>Select Primary Factor:</Text>
+      <View style={styles.selectorButtons}>
+        {primaryFactorCandidates.map(input => (
+          <TouchableOpacity
+            key={input.name}
+            style={[
+              styles.selectorButton,
+              selectedPrimaryFactorName === input.name && styles.selectorButtonActive
+            ]}
+            onPress={() => onSelectPrimaryFactor(input.name)}
+          >
+            <Text 
+              style={[
+                styles.selectorButtonText,
+                selectedPrimaryFactorName === input.name && styles.selectorButtonTextActive
+              ]}
+            >
+              {getDisplayString('caption' in input && input.caption ? input.caption : input.name)}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
+  );
+}
+  
 
 
 export default function ProbabilityCurvePage() {
+
   const { modelname } = useLocalSearchParams<{ modelname: string }>();
   const model = formulas.find(f => f.name === modelname);
-
-  const [factorValues, setFactorValues] = useState<{[key: string]: any}>({});
-  const [calculatedPoint, setCalculatedPoint] = useState<{ x: number; y: number } | null>(null);
-
-  useEffect(() => {
-    if (model) {
-      setFactorValues(getInitialFactorStates(model.inputs));
-    }
-  }, [model]);
-
   if (!model) {
     return (
       <ErrorMessagePage
@@ -67,87 +72,124 @@ export default function ProbabilityCurvePage() {
     );
   }
   const displayModelTitle = getDisplayString(model.shorttitle);
-  const primarySIgEInput = model.inputs.find(input => input.type === 'sIgE' && input.mode === 'primary');
 
-  if (!primarySIgEInput || primarySIgEInput.type !== 'sIgE') {
+  const primaryFactorCandidates = useMemo(() => {
+    if (!model) return [];
+    return model.inputs.filter(
+      input => (input.type === 'sIgE' || input.type === 'proteindose')
+    );
+  }, [model]);
+
+  const [selectedPrimaryFactorName, setSelectedPrimaryFactorName] = useState<string | undefined>(() => {
+    // Initialize with the first primary factor candidate if available
+    const sIgECandidate = primaryFactorCandidates.find(input => input.type === 'sIgE' && input.mode === 'primary');
+    if (sIgECandidate) {
+      return sIgECandidate.name;
+    } else if (primaryFactorCandidates.length > 0) {
+      return primaryFactorCandidates[0].name;
+    }
+    return undefined;
+  });
+  const primaryInput = useMemo(() => {
+    if (!model || !selectedPrimaryFactorName) return undefined;
+    return model.inputs.find(input => input.name === selectedPrimaryFactorName);
+  }, [model, selectedPrimaryFactorName]);
+  if (!primaryInput) {
     return (
       <ErrorMessagePage
         title="Configuration Error"
-        message={`Primary sIgE input not found or invalid for model: ${displayModelTitle}`}
+        message={`No suitable primary factor (sIgE or proteindose) found or selected for model: ${modelname}`}
         iconName="alert-circle-outline"
       />
     );
   }
   
-  const primaryBetaKey = `Log${primarySIgEInput.name}`;
-  const primarySIgEBetaValue = model.output.result.beta[primaryBetaKey];
-
-  if (typeof primarySIgEBetaValue !== 'number') {
-    return (
-      <ErrorMessagePage
-        title="Configuration Error"
-        message={`Beta value for ${primaryBetaKey} not found or invalid in model: ${displayModelTitle}`}
-        iconName="alert-circle-outline"
-      />
-    );
-  }
-
-  const handleFactorChange = (name: string, value: any) => {
+  const [factorValues, setFactorValues] = useState<{[key: string]: any}>({});
+  const handleFactorChange = useCallback((name: string, value: any) => {
     setFactorValues(prev => ({ ...prev, [name]: value }));
-  };
-  
-  const minLogSIgE = -2; // Log10(0.01)
-  const maxLogSIgE = 3;  // Log10(1000)
+  }, []);
 
-  // Calculate adjustedIntercept using the new helper function
+  const primaryBetaKey = `Log${primaryInput.name}`;
+  const primaryBetaValue = model.output.result.beta[primaryBetaKey];
+
+  const [calculatedPoint, setCalculatedPoint] = useState<{ x: number; y: number } | null>(null);
+
+  const { minXValue, maxXValue } = useMemo(() => {
+    if (!primaryInput) return { minXValue: 0, maxXValue: 1 };
+    switch (primaryInput.type) {
+      case 'sIgE':
+        return { minXValue: -2, maxXValue: 3 }; // Log10(0.01) to Log10(1000)
+      case 'proteindose':
+        return { minXValue: 0, maxXValue: 4 }; // Log10(0.1) to Log10(10000)
+      default:
+        console.warn(`Unsupported primary input type: ${primaryInput.type}`);
+        return { minXValue: 0, maxXValue: 1 }; // Fallback for unsupported types
+    }
+  }, [primaryInput]);
+
   const adjustedIntercept = useMemo(() => {
-    if (!model || !factorValues || Object.keys(factorValues).length === 0) { return 0; /* not loaded yet */ }
-    return calculateAdjustedIntercept(model, factorValues);
-  }, [model, factorValues]);
+    if (!model || !factorValues || Object.keys(factorValues).length === 0 || !primaryInput) return 0;
+    return calculateAdjustedIntercept(model, factorValues, primaryInput.name);
+  }, [model, factorValues, primaryInput]);
 
+  // Calculate target proability based on current factor values
   useEffect(() => {
-    // Get primary sIgE value from factorValues using primarySIgEInput.name
-    const primarySIgEValueString = primarySIgEInput ? factorValues[primarySIgEInput.name] : undefined;
-    const parsedSIgE = parseFloat(primarySIgEValueString);
+    if (!primaryInput || !isFinite(primaryBetaValue) || !isFinite(adjustedIntercept)) {
+      setCalculatedPoint(null);
+      return;
+    }
 
-    if (primarySIgEInput && !isNaN(parsedSIgE) && parsedSIgE > 0 && isFinite(primarySIgEBetaValue) && isFinite(adjustedIntercept)) {
-      const logSIgEValue = Math.log10(parsedSIgE);
-      const probability = logistic(adjustedIntercept, primarySIgEBetaValue, logSIgEValue);
-      setCalculatedPoint({ x: logSIgEValue, y: probability });
+    const primaryFactorValueString = factorValues[primaryInput.name];
+    const parsedPrimaryFactorValue = parseFloat(primaryFactorValueString);
+
+    if (!isNaN(parsedPrimaryFactorValue) && parsedPrimaryFactorValue > 0) {
+      const logPrimaryFactorValue = Math.log10(parsedPrimaryFactorValue);
+      const probability = logistic(adjustedIntercept, primaryBetaValue, logPrimaryFactorValue);
+      setCalculatedPoint({ x: logPrimaryFactorValue, y: probability });
     } else {
       setCalculatedPoint(null);
     }
-  }, [factorValues, primarySIgEInput, adjustedIntercept, primarySIgEBetaValue, minLogSIgE, maxLogSIgE]);
+  }, [factorValues, primaryInput, adjustedIntercept, primaryBetaValue, minXValue, maxXValue]);
 
+  // Generate points for the graph
   const points = useMemo(() => {
+    if (!primaryInput || !isFinite(adjustedIntercept) || !isFinite(primaryBetaValue)) return [];
     const pts = [];
     const numPoints = 50; // 50 is enough
     for (let i = 0; i <= numPoints; i++) {
-      const logSIgE_primary = minLogSIgE + (i / numPoints) * (maxLogSIgE - minLogSIgE);
-      const probability = logistic(adjustedIntercept, primarySIgEBetaValue, logSIgE_primary);
-      pts.push({ x: logSIgE_primary, y: probability });
+      const xValue = minXValue + (i / numPoints) * (maxXValue - minXValue);
+      const probability = logistic(adjustedIntercept, primaryBetaValue, xValue);
+      pts.push({ x: xValue, y: probability });
     }
     return pts;
-  }, [adjustedIntercept, primarySIgEBetaValue, minLogSIgE, maxLogSIgE]);
+  }, [adjustedIntercept, primaryBetaValue, minXValue, maxXValue, primaryInput]);
 
   const chartHeight = 300;
-  const chartPadding = 50;
+  const chartPadding = 50; 
   const actualDeviceWidth = Dimensions.get('window').width;
-  const screenWidthForGraph = Math.min(actualDeviceWidth, PAGE_MAX_WIDTH) - (2 * 10);
+  const screenWidthForGraph = Math.min(actualDeviceWidth, PAGE_MAX_WIDTH) - (2 * 10); 
 
   return (
     <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContentContainer}>
       <Stack.Screen options={{ title: displayModelTitle }} />
       
-      {model.output.result.graph !== "hide" && (
+      <PrimaryFactorSelector
+        primaryFactorCandidates={primaryFactorCandidates}
+        selectedPrimaryFactorName={selectedPrimaryFactorName}
+        onSelectPrimaryFactor={setSelectedPrimaryFactorName}
+      />
+
+      {model.output.result.graph !== "hide" && primaryInput && (
       <GraphArea
         points={points}
-        minLogSIgE={minLogSIgE}
-        maxLogSIgE={maxLogSIgE}
+        minXValue={minXValue} // Use generic minXValue
+        maxXValue={maxXValue} // Use generic maxXValue
         highlightPoint={calculatedPoint}
         chartHeight={chartHeight}
         chartPadding={chartPadding}
         screenWidth={screenWidthForGraph}
+        xAxisLabel={getDisplayString('caption' in primaryInput ? primaryInput.caption : primaryInput.name)}
+        // Note: GraphArea might need to be updated to accept minXValue, maxXValue, and xAxisLabel
       />
       )}
 
@@ -161,10 +203,11 @@ export default function ProbabilityCurvePage() {
       {model.inputs.length > 0 && (
         <View style={styles.controlsContainer}>
           <Text style={styles.subTitle}>Adjust factors:</Text>
-          <UserInputs
-            inputs={model.inputs}
-            currentValues={factorValues}
-            onValueChange={handleFactorChange}
+          <FactorInputController
+            modelInputs={model.inputs}
+            setFactorValuesState={setFactorValues}
+            currentFactorValues={factorValues}
+            onFactorValueChange={handleFactorChange}
           />
          <Text style={styles.subTitleNote}>Curve adjusted for the factors set above.</Text>
         </View>
@@ -204,28 +247,54 @@ const styles = StyleSheet.create({
   },
   scrollContentContainer: {
     alignItems: 'center',
-    paddingTop: 20,
+    paddingTop: 10, // Reduced top padding
     paddingBottom: 40,
-    paddingHorizontal: 10,
+    paddingHorizontal: 10, // This padding is accounted for in screenWidthForGraph
     maxWidth: PAGE_MAX_WIDTH,
     width: '100%',
     alignSelf: 'center',
   },
-  container: {
-    flex: 1,
+  selectorContainer: {
+    width: '100%',
+    maxWidth: 500,
+    paddingHorizontal: 15,
+    marginBottom: 15,
     alignItems: 'center',
-    backgroundColor: '#ffffff',
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  selectorLabel: {
+    fontSize: 15,
+    fontWeight: '600',
+    marginBottom: 8,
+    color: '#333',
+  },
+  selectorButtons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  selectorButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: '#007AFF',
+    borderRadius: 20,
+    marginHorizontal: 5,
     marginBottom: 5,
-    textAlign: 'center',
+  },
+  selectorButtonActive: {
+    backgroundColor: '#007AFF',
+  },
+  selectorButtonText: {
+    color: '#007AFF',
+    fontSize: 13,
+  },
+  selectorButtonTextActive: {
+    color: '#ffffff',
   },
   subTitle: {
     fontSize: 16,
     fontWeight: '600',
-    marginTop: 20,
+    marginTop: 10, // Reduced margin
     marginBottom: 15,
     textAlign: 'center',
     color: '#333',
@@ -234,21 +303,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginVertical: 15,
+    marginVertical: 10, // Reduced margin
     color: '#007AFF',
-  },
-  primarySIgEContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    marginBottom: 10,
-    width: '100%',
-    maxWidth: 500,
   },
   subTitleNote: {
     fontSize: 12,
-    marginBottom: 15,
+    marginTop: 5, // Added margin top for spacing
+    marginBottom: 10, // Reduced margin
     textAlign: 'center',
     color: 'dimgray',
   },
@@ -257,39 +318,6 @@ const styles = StyleSheet.create({
     maxWidth: 500,
     paddingHorizontal: 15,
     marginBottom: 20,
-  },
-  factorRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  factorLabel: {
-    fontSize: 15,
-    flex: 1,
-    marginRight: 10,
-  },
-  factorInput: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderRadius: 5,
-    minWidth: 80,
-    fontSize: 15,
-    textAlign: 'right',
-  },
-  sexButton: {
-    padding: 8,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: 50,
   },
   infoSection: {
     width: '100%',
@@ -303,13 +331,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     textAlign: 'left',
     color: '#333',
-  },
-  referenceText: {
-    fontSize: 12,
-    lineHeight: 18,
-    textAlign: 'left',
-    color: '#555',
-    marginBottom: 5,
   },
   linkText: {
     fontSize: 12,

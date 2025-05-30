@@ -10,10 +10,17 @@ const MIN_LOG_SIGE = -2; // Log10(0.01)
 
 /**
  * Calculates the adjusted intercept based on model inputs, calc items, and beta coefficients.
+ * @param model The formula definition.
+ * @param factorValues The current values of all input factors.
+ * @param excludedFactorName The name of the primary factor to exclude from intercept adjustment (its effect is handled by the main beta).
  */
-export function calculateAdjustedIntercept( model: Formula, factorValues: { [key: string]: any }): number{
+export function calculateAdjustedIntercept(
+    model: Formula, 
+    factorValues: { [key: string]: any },
+    excludedFactorName?: string // New optional parameter
+): number {
     const variables: Record<string, number> = {};
-    const primaryKey = model.inputs.find(input => input.type === "sIgE" && input.mode === "primary")?.name || "";
+    // const primaryKey = model.inputs.find(input => input.type === "sIgE" && input.mode === "primary")?.name || ""; // Replaced by excludedFactorName
 
     // 1. Store values of inputs
     model.inputs.forEach(input => {
@@ -45,7 +52,12 @@ export function calculateAdjustedIntercept( model: Formula, factorValues: { [key
     let adjustedIntercept = model.output.result.intercept;
     for (const betaKey in betaCoefficients) {
         if (!betaCoefficients.hasOwnProperty(betaKey)) continue; // Skip if not a direct property
-        if (betaKey === primaryKey || betaKey === `Log${primaryKey}`) continue; // Skip primary sIgE key, handled separately
+        
+        // Skip the dynamically selected primary factor (and its Log-transformed version)
+        if (excludedFactorName && (betaKey === excludedFactorName || betaKey === `Log${excludedFactorName}`)) {
+            continue; 
+        }
+
         const coefficient = betaCoefficients[betaKey];
         if (variables.hasOwnProperty(betaKey)) {
             adjustedIntercept += coefficient * variables[betaKey];
