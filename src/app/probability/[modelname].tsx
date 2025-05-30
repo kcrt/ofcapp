@@ -22,6 +22,7 @@ function logistic (intercept: number, beta: number, x: number): number{
 const DEFAULT_AGE = 5; // years
 const DEFAULT_TOTAL_IGE = 100; // IU/mL
 const DEFAULT_SIGE = 1.0; // kUA/L
+const DEFAULT_PROTEINDOSE = 100.0; // protein dose [mg]
 
 function getInitialFactorStates(inputs: FormulaInputSchema[]): { [key: string]: any } {
   const states: { [key: string]: any } = {};
@@ -30,17 +31,14 @@ function getInitialFactorStates(inputs: FormulaInputSchema[]): { [key: string]: 
     "age": DEFAULT_AGE.toString(),
     "IgE": DEFAULT_TOTAL_IGE.toString(),
     "sIgE": DEFAULT_SIGE.toString(),
-    "sex": false
+    "sex": false,
+    "proteindose": DEFAULT_PROTEINDOSE.toString() // Added default for proteindose
   }
   inputs.forEach(input => {
-    if(input.type === "sIgE" && input.mode === "primary") {
-      // skip
-    }else {
-      if(defaultValues.hasOwnProperty(input.type)) {
-        states[input.name] = defaultValues[input.type];
-      }else{
-        console.warn(`Unknown default value for ${input.type}`)
-      }
+    if(defaultValues.hasOwnProperty(input.type)) {
+      states[input.name] = defaultValues[input.type];
+    }else{
+      console.warn(`Unknown default value for input type: ${input.type} (name: ${input.name})`)
     }
   });
   return states;
@@ -52,13 +50,11 @@ export default function ProbabilityCurvePage() {
   const model = formulas.find(f => f.name === modelname);
 
   const [factorValues, setFactorValues] = useState<{[key: string]: any}>({});
-  const [primarySIgEInputValue, setPrimarySIgEInputValue] = useState<string>(DEFAULT_SIGE.toString()); // Default sIgE value
   const [calculatedPoint, setCalculatedPoint] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (model) {
       setFactorValues(getInitialFactorStates(model.inputs));
-      setPrimarySIgEInputValue('1.0');
     }
   }, [model]);
 
@@ -83,7 +79,6 @@ export default function ProbabilityCurvePage() {
     );
   }
   
-  const primarySIgECaption = getDisplayString(primarySIgEInput.caption);
   const primaryBetaKey = `Log${primarySIgEInput.name}`;
   const primarySIgEBetaValue = model.output.result.beta[primaryBetaKey];
 
@@ -109,21 +104,20 @@ export default function ProbabilityCurvePage() {
     if (!model || !factorValues || Object.keys(factorValues).length === 0) { return 0; /* not loaded yet */ }
     return calculateAdjustedIntercept(model, factorValues);
   }, [model, factorValues]);
-  useEffect(() => {
-    handleFactorChange(primarySIgEInput.name, primarySIgEInputValue);
-  }, [primarySIgEInputValue])
-
 
   useEffect(() => {
-    const parsedSIgE = parseFloat(primarySIgEInputValue);
-    if (!isNaN(parsedSIgE) && parsedSIgE > 0 && isFinite(primarySIgEBetaValue) && isFinite(adjustedIntercept)) {
+    // Get primary sIgE value from factorValues using primarySIgEInput.name
+    const primarySIgEValueString = primarySIgEInput ? factorValues[primarySIgEInput.name] : undefined;
+    const parsedSIgE = parseFloat(primarySIgEValueString);
+
+    if (primarySIgEInput && !isNaN(parsedSIgE) && parsedSIgE > 0 && isFinite(primarySIgEBetaValue) && isFinite(adjustedIntercept)) {
       const logSIgEValue = Math.log10(parsedSIgE);
       const probability = logistic(adjustedIntercept, primarySIgEBetaValue, logSIgEValue);
       setCalculatedPoint({ x: logSIgEValue, y: probability });
     } else {
       setCalculatedPoint(null);
     }
-  }, [primarySIgEInputValue, adjustedIntercept, primarySIgEBetaValue, minLogSIgE, maxLogSIgE]);
+  }, [factorValues, primarySIgEInput, adjustedIntercept, primarySIgEBetaValue, minLogSIgE, maxLogSIgE]);
 
   const points = useMemo(() => {
     const pts = [];
@@ -141,11 +135,6 @@ export default function ProbabilityCurvePage() {
   const actualDeviceWidth = Dimensions.get('window').width;
   const screenWidthForGraph = Math.min(actualDeviceWidth, PAGE_MAX_WIDTH) - (2 * 10);
 
-  // Filter out the primary sIgE input for UserInputs component
-  const otherFactorInputs = model.inputs.filter(
-    input => !(input.type === 'sIgE' && input.mode === 'primary')
-  );
-
   return (
     <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContentContainer}>
       <Stack.Screen options={{ title: displayModelTitle }} />
@@ -162,17 +151,6 @@ export default function ProbabilityCurvePage() {
       />
       )}
 
-      {/* Primary sIgE Input */}
-      <View style={styles.primarySIgEContainer}>
-        <Text style={styles.factorLabel}>{primarySIgECaption || primarySIgEInput.name} (UA/mL):</Text>
-        <TextInput
-          style={styles.factorInput}
-          value={primarySIgEInputValue}
-          onChangeText={setPrimarySIgEInputValue}
-          keyboardType="numeric"
-          placeholder="e.g. 5.0"
-        />
-      </View>
 
       {calculatedPoint && (
         <Text style={styles.probabilityText}>
@@ -180,11 +158,11 @@ export default function ProbabilityCurvePage() {
         </Text>
       )}
       
-      {otherFactorInputs.length > 0 && (
+      {model.inputs.length > 0 && (
         <View style={styles.controlsContainer}>
-          <Text style={styles.subTitle}>Adjust other factors:</Text>
+          <Text style={styles.subTitle}>Adjust factors:</Text>
           <UserInputs
-            inputs={otherFactorInputs}
+            inputs={model.inputs}
             currentValues={factorValues}
             onValueChange={handleFactorChange}
           />

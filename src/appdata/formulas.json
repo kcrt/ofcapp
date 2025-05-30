@@ -27,12 +27,12 @@
             {
                 "name": "EW",
                 "type": "sIgE",
-                "caption": "Egg white"
+                "caption": "Egg white sIgE"
             },
             {
                 "name": "OVM",
                 "type": "sIgE",
-                "caption": "Ovomucoid",
+                "caption": "Ovomucoid sIgE",
                 "mode": "primary"
             },
             {
@@ -80,7 +80,7 @@
             {
                 "name": "BW",
                 "type": "sIgE",
-                "caption": "Buckwheat",
+                "caption": "Buckwheat sIgE",
                 "mode": "primary"
             }
         ],
@@ -106,7 +106,7 @@
             {
                 "name": "FagE3",
                 "type": "sIgE",
-                "caption": "Fag e 3",
+                "caption": "Fag e 3 sIgE",
                 "mode": "primary"
             }
         ],
@@ -133,7 +133,7 @@
             {
                 "name": "Ikra",
                 "type": "sIgE",
-                "caption": "ikra (salmon roe)",
+                "caption": "ikra (salmon roe) sIgE",
                 "mode": "primary"
             }
         ],
@@ -160,13 +160,13 @@
             {
                 "name": "Tarako",
                 "type": "sIgE",
-                "caption": "tarako (pollock roe)",
+                "caption": "tarako (pollock roe) sIgE",
                 "mode": "primary"
             },
             {
                 "name": "Ikra",
                 "type": "sIgE",
-                "caption": "ikra (salmon roe)"
+                "caption": "ikra (salmon roe) sIgE"
             }
         ],
         "calc": [
@@ -247,12 +247,12 @@
             {
                 "name": "EW",
                 "type": "sIgE",
-                "caption": "Egg white"
+                "caption": "Egg white sIgE"
             },
             {
                 "name": "OVM",
                 "type": "sIgE",
-                "caption": "Ovomucoid",
+                "caption": "Ovomucoid sIgE",
                 "mode": "primary"
             }
         ],
