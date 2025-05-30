@@ -32,7 +32,7 @@ const InputItemAgeSchema = z.object({
 const InputItemBooleanSchema = z.object({
   name: z.string(),
   type: z.literal("boolean"),
-  caption: z.string()
+  caption: MultilangStringSchema
 });
 const InputItemTotalIgESchema = z.object({
   name: z.string(),
@@ -41,8 +41,14 @@ const InputItemTotalIgESchema = z.object({
 const InputItemSpecificIgESchema = z.object({
   name: z.string(),
   type: z.literal("sIgE"),
-  caption: z.string(),
+  caption: MultilangStringSchema,
   mode: z.literal("primary").optional(),
+});
+const InputItemProteinDoseSchema = z.object({
+  name: z.string(),
+  type: z.literal("proteindose"),
+  caption: MultilangStringSchema,
+  items: z.array(z.tuple([z.string(), z.number()]))
 });
 
 const InputItemSchema = z.union([
@@ -50,7 +56,8 @@ const InputItemSchema = z.union([
   InputItemAgeSchema,
   InputItemBooleanSchema,
   InputItemTotalIgESchema,
-  InputItemSpecificIgESchema
+  InputItemSpecificIgESchema,
+  InputItemProteinDoseSchema
 ]);
 
 export type InputItemType = z.infer<typeof InputItemSchema>;

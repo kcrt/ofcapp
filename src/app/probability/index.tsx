@@ -19,7 +19,7 @@ export default function ProbabilityPage() {
       <Stack.Screen options={{ title: 'Probability Curves' }} />
       <Text style={styles.header}>Available Curves</Text>
       <FlatList
-        data={formulas.filter((f) => f.output.mode === "ofc")}
+        data={formulas.filter((f) => f.output.mode === "ofc" || f.output.mode === "ed")}
         renderItem={renderItem}
         keyExtractor={(item) => item.name}
         style={styles.list}

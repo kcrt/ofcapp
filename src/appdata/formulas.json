@@ -187,5 +187,93 @@
                 }
             }
         }
+    },
+    {
+        "name": "kcrt-egg-bmd-deprived",
+        "title": "鶏卵 負荷試験 による導入",
+        "shorttitle": "鶏卵 BMD",
+        "info": "対象: 完全除去中, 「食物経口負荷試験の標準的施行方法の確立と普及を目指す研究」研究班",
+        "foodtype": "egg",
+        "references": {},
+        "inputs": [
+            {
+                "name": "Protein",
+                "type": "proteindose",
+                "caption": "加熱卵白タンパク量",
+                "items": [
+                    [ "全卵 1g", 70 ],
+                    [ "全卵 2g", 140 ],
+                    [ "卵白 1g", 100 ],
+                    [ "卵白 2g", 200 ],
+                    [ "卵黄つなぎ", 150 ],
+                    [ "全卵 1/8個", 570 ],
+                    [ "たまこな 25", 17 ],
+                    [ "たまこな 250", 174 ],
+                    [ "たまこな 750", 522 ]
+                ]
+            },
+            {
+                "name": "age",
+                "type": "age"
+            },
+            {
+                "name": "sex",
+                "type": "sex"
+            },
+            {
+                "name": "AD",
+                "type": "boolean",
+                "caption": "Atopic dermatitis"
+            },
+            {
+                "name": "BA",
+                "type": "boolean",
+                "caption": "Bronchial asthma"
+            },
+            {
+                "name": "AR",
+                "type": "boolean",
+                "caption": "Allergic rhinitis"
+            },
+            {
+                "name": "AnHist",
+                "type": "boolean",
+                "caption": "History of anaphylaxis"
+            },
+            {
+                "name": "IgE",
+                "type": "IgE"
+            },
+            {
+                "name": "EW",
+                "type": "sIgE",
+                "caption": "Egg white"
+            },
+            {
+                "name": "OVM",
+                "type": "sIgE",
+                "caption": "Ovomucoid",
+                "mode": "primary"
+            }
+        ],
+        "output": {
+            "mode": "ed",
+            "result": {
+                "mode": "logistic",
+                "intercept": -5.3769,
+                "beta": {
+                    "age": 0.4676,
+                    "male": 0.101,
+                    "AD": 0.49672,
+                    "BA": 0.999,
+                    "AR": -1.741,
+                    "AnHist": 0.279,
+                    "LogIgE": -0.856,
+                    "LogProtein": 1.3152,
+                    "LogEW": 0.5635,
+                    "LogOVM": 1.1412477
+                }
+            }
+        }
     }
 ]

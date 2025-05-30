@@ -93,7 +93,7 @@
             }
         ],
         "output": {
-            "mode": "ofc",
+            "mode": "ed",
             "result": {
                 "mode": "logistic",
                 "intercept": -5.3769,

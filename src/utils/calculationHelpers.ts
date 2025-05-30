@@ -19,7 +19,7 @@ export function calculateAdjustedIntercept( model: Formula, factorValues: { [key
     model.inputs.forEach(input => {
         const rawValue = factorValues[input.name];
         variables[input.name] = rawValue;
-        if(input.type === "IgE" || input.type === "sIgE") {
+        if(input.type === "IgE" || input.type === "sIgE" || input.type === "proteindose") {
             variables[`Log${input.name}`] = Math.log10(variables[input.name]);
         }else if(input.type === "sex"){
             variables["male"] = rawValue !== true ? 1 : 0; //
