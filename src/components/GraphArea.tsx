@@ -42,9 +42,10 @@ interface AxisLabel {
 
 interface GraphAreaProps {
   points: Point[];
-  minXValue: number; // Changed from minLogSIgE
-  maxXValue: number; // Changed from maxLogSIgE
-  xAxisLabel?: string; // New prop for dynamic x-axis label
+  minXValue: number;
+  maxXValue: number;
+  xAxisLabelsNumber?: number; // Optional prop to override default number of X-axis labels
+  xAxisTitle?: string;
   chartHeight?: number;
   chartPadding?: number;
   screenWidth?: number;
@@ -54,24 +55,15 @@ interface GraphAreaProps {
 // Helper function to format X-axis label values (previously complex toFixed logic)
 const formatXAxisLabelValue = (logValue: number): string => {
   const actualValue = Math.pow(10, logValue);
-  if (logValue < 0) {
-    return actualValue.toFixed(2); // e.g., 0.01, 0.10
-  }
-  if (logValue === 0) {
-    return actualValue.toFixed(0); // e.g., 1
-  }
-  // logValue > 0
-  if (logValue < 1) {
-    return actualValue.toFixed(2); // e.g., 1.58, 3.16
-  }
-  return actualValue.toFixed(0); // e.g., 10, 100
+  return logValue < 0 ? actualValue.toFixed(2) : actualValue.toFixed(0);
 };
 
 export default function GraphArea({
   points,
-  minXValue, // Changed
-  maxXValue, // Changed
-  xAxisLabel = "Value", // Default X-axis label
+  minXValue,
+  maxXValue,
+  xAxisLabelsNumber = NUM_X_AXIS_LABELS, // Default to NUM_X_AXIS_LABELS
+  xAxisTitle: xAxisLabel = "Value", // Default X-axis label
   chartHeight = DEFAULT_CHART_HEIGHT,
   chartPadding = DEFAULT_CHART_PADDING,
   screenWidth: propScreenWidth = screenWidth,
@@ -97,8 +89,8 @@ export default function GraphArea({
 
   // X-axis labels
   const xAxisLabels: AxisLabel[] = [];
-  for (let i = 0; i <= NUM_X_AXIS_LABELS; i++) {
-    const xValue = minXValue + i * ((maxXValue - minXValue) / NUM_X_AXIS_LABELS);
+  for (let i = 0; i <= xAxisLabelsNumber; i++) {
+    const xValue = minXValue + i * ((maxXValue - minXValue) / xAxisLabelsNumber);
     const { xPos } = convertDataPointToSvgPoint({ x: xValue, y: 0 }); // y is irrelevant for xPos
     xAxisLabels.push({
       value: formatXAxisLabelValue(xValue),

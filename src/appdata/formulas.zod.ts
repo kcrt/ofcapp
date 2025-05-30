@@ -50,6 +50,15 @@ const InputItemProteinDoseSchema = z.object({
   caption: MultilangStringSchema,
   items: z.array(z.tuple([z.string(), z.number()]))
 });
+const InputItemNumeric = z.object({
+  name: z.string(),
+  type: z.literal("numeric"),
+  caption: MultilangStringSchema,
+  unit: MultilangStringSchema.optional(),
+  min: z.number().optional(),
+  max: z.number().optional(),
+  step: z.number().optional(),
+});
 
 const InputItemSchema = z.union([
   InputItemSexSchema,
@@ -57,7 +66,8 @@ const InputItemSchema = z.union([
   InputItemBooleanSchema,
   InputItemTotalIgESchema,
   InputItemSpecificIgESchema,
-  InputItemProteinDoseSchema
+  InputItemProteinDoseSchema,
+  InputItemNumeric
 ]);
 
 export type InputItemType = z.infer<typeof InputItemSchema>;
@@ -82,7 +92,7 @@ const OutputSchema = z.object({
 const FormulaSchema = z.object({
   name: z.string(),
   title: MultilangStringSchema,
-  shorttitle: z.string(),
+  shorttitle: MultilangStringSchema,
   info: z.string().optional(),
   note: MultilangStringSchema.optional(),
   foodtype: FoodTypeSchema,

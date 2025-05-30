@@ -114,16 +114,16 @@ export default function ProbabilityCurvePage() {
 
   const [calculatedPoint, setCalculatedPoint] = useState<{ x: number; y: number } | null>(null);
 
-  const { minXValue, maxXValue } = useMemo(() => {
+  const { minXValue, maxXValue, xAxisLabelsNumber } = useMemo(() => {
     if (!primaryInput) return { minXValue: 0, maxXValue: 1 };
     switch (primaryInput.type) {
       case 'sIgE':
-        return { minXValue: -2, maxXValue: 3 }; // Log10(0.01) to Log10(1000)
+        return { minXValue: -2, maxXValue: 3, xAxisLabelsNumber: 5 }; // Log10(0.01) to Log10(1000)
       case 'proteindose':
-        return { minXValue: 0, maxXValue: 4 }; // Log10(0.1) to Log10(10000)
+        return { minXValue: 0, maxXValue: 4, xAxisLabelsNumber: 4 }; // Log10(1) to Log10(10000)
       default:
         console.warn(`Unsupported primary input type: ${primaryInput.type}`);
-        return { minXValue: 0, maxXValue: 1 }; // Fallback for unsupported types
+        return { minXValue: 0, maxXValue: 1, xAxisLabelsNumber: 5 }; // Fallback for unsupported types
     }
   }, [primaryInput]);
 
@@ -184,11 +184,12 @@ export default function ProbabilityCurvePage() {
         points={points}
         minXValue={minXValue} // Use generic minXValue
         maxXValue={maxXValue} // Use generic maxXValue
+        xAxisLabelsNumber={xAxisLabelsNumber} // Use generic xAxisLabelsNumber
         highlightPoint={calculatedPoint}
         chartHeight={chartHeight}
         chartPadding={chartPadding}
         screenWidth={screenWidthForGraph}
-        xAxisLabel={getDisplayString('caption' in primaryInput ? primaryInput.caption : primaryInput.name)}
+        xAxisTitle={getDisplayString('caption' in primaryInput ? primaryInput.caption : primaryInput.name)}
         // Note: GraphArea might need to be updated to accept minXValue, maxXValue, and xAxisLabel
       />
       )}

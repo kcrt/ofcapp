@@ -9,7 +9,7 @@ export default function ProbabilityPage() {
     <Link href={`/probability/${item.name}`} asChild>
       <TouchableOpacity style={styles.itemContainer}>
         <Text style={styles.itemTitle}>{getDisplayString(item.title)}</Text>
-        <Text style={styles.itemShortTitle}>{item.shorttitle}</Text>
+        <Text style={styles.itemShortTitle}>{getDisplayString(item.shorttitle)}</Text>
       </TouchableOpacity>
     </Link>
   );

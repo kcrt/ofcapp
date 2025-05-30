@@ -191,7 +191,10 @@
     {
         "name": "kcrt-egg-bmd-deprived",
         "title": "鶏卵 負荷試験 による導入",
-        "shorttitle": "鶏卵 BMD",
+        "shorttitle": {
+            "en": "Egg BMD",
+            "ja": "鶏卵 BMD"
+        },
         "info": "対象: 完全除去中, 「食物経口負荷試験の標準的施行方法の確立と普及を目指す研究」研究班",
         "foodtype": "egg",
         "references": {},
@@ -199,7 +202,10 @@
             {
                 "name": "Protein",
                 "type": "proteindose",
-                "caption": "加熱卵白タンパク量",
+                "caption": {
+                    "en": "Heated egg white protein dose",
+                    "ja": "加熱卵白タンパク量"
+                },
                 "items": [
                     [ "全卵 1g", 70 ],
                     [ "全卵 2g", 140 ],
