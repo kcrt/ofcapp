@@ -16,7 +16,7 @@ export default function About() {
                     title: `About ${appName}`,
                 }}
             />
-            <Image source={require('@/../assets/icon.png')} style={styles.logo} />
+            <Image source={require('@/../assets/images/icon.png')} style={styles.logo} />
             <Text style={styles.title}>{appName}</Text>
             <Text style={styles.version}>Version {appVersion}</Text>
             <Text style={styles.description}>
@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     logo: {
-        width: 100,
-        height: 100,
+        width: 200,
+        height: 200,
         marginBottom: 20,
     },
     title: {
