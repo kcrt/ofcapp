@@ -4,8 +4,8 @@ import SquareButton from '@/components/SquareButton';
 import { Ionicons } from '@expo/vector-icons';
 import { getDisplayString, MultilangString } from '@/utils/i18n';
 
-const buttons: { title: MultilangString; href: string; disabled?: boolean, iconName: keyof typeof Ionicons.glyphMap}[] = [
-  { title: '@Today', href: '/today', iconName: 'calendar-outline', disabled: true },
+const buttons: { title: MultilangString; href: string; disabled?: boolean, iconName: keyof typeof Ionicons.glyphMap, mode?: string}[] = [
+  { title: '@Today', href: '/today', iconName: 'calendar-outline', mode: "demo" },
   { title: '@All', href: '/all', iconName: 'apps-outline', disabled: true },
   { title: '@PredictOFC', href: '/predictofc', iconName: 'stats-chart-outline' },
   { title: '@Information documents', href: '/info', iconName: 'document-text-outline', disabled: true },
@@ -27,6 +27,7 @@ export default function Home() {
             disabled={item.disabled}
             href={item.href}
             iconName={item.iconName}
+            mode={item.mode}
           />
         )}
       />
