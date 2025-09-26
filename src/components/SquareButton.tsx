@@ -18,16 +18,34 @@ interface SquareButtonProps {
 
 export default function SquareButton({ title, href, iconName, size, disabled, onPress, mode }: SquareButtonProps) {
   const currentButtonSize = size || defaultButtonSize;
+
+  const buttonInnerContent = (
+    <>
+      <Ionicons name={iconName} size={currentButtonSize * 0.4} color={disabled ? "#aaaaaa" : "#333333"} />
+      <Text style={[styles.buttonText, disabled && styles.disabledButtonText]}>{title}</Text>
+    </>
+  );
+
   const buttonContent = (
     <View style={{position: 'relative'}}>
-      <TouchableOpacity
-        style={{...styles.button, ...{width: currentButtonSize, height: currentButtonSize}}}
-        disabled={disabled}
-        onPress={onPress}
-      >
-        <Ionicons name={iconName} size={currentButtonSize * 0.4} color={disabled ? "#aaaaaa" : "#333333"} />
-        <Text style={[styles.buttonText, disabled && styles.disabledButtonText]}>{title}</Text>
-      </TouchableOpacity>
+      {href ? (
+        <Link push href={href} asChild>
+          <Pressable
+            style={{...styles.button, ...{width: currentButtonSize, height: currentButtonSize}}}
+            disabled={disabled}
+          >
+            {buttonInnerContent}
+          </Pressable>
+        </Link>
+      ) : (
+        <TouchableOpacity
+          style={{...styles.button, ...{width: currentButtonSize, height: currentButtonSize}}}
+          disabled={disabled}
+          onPress={onPress}
+        >
+          {buttonInnerContent}
+        </TouchableOpacity>
+      )}
       {mode && (
         <View style={[
           styles.ribbon,
@@ -50,19 +68,7 @@ export default function SquareButton({ title, href, iconName, size, disabled, on
     </View>
   );
 
-  if (disabled) {
-    return buttonContent;
-  } else if (onPress) {
-    return buttonContent;
-  } else if (href) {
-    return (
-      <Link push href={href} asChild>
-        {buttonContent}
-      </Link>
-    );
-  } else {
-    return buttonContent;
-  }
+  return buttonContent;
 }
 
 const styles = StyleSheet.create({

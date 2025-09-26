@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet, Image } from "react-native";
-import { Stack } from "expo-router";
+import { View, Text, StyleSheet, Image, TouchableWithoutFeedback } from "react-native";
+import { Stack, router } from "expo-router";
+import { useState } from "react";
 import HeaderBackButton from "@/components/HeaderBackButton";
 import Constants from 'expo-constants';
 import packageJson from '@/../package.json';
@@ -8,6 +9,16 @@ export default function About() {
     const appName = Constants.expoConfig?.name || 'OFCApp';
     const appVersion = packageJson.version || '0.0.0';
     const appDescription = Constants.expoConfig?.description || 'Thank you for using our app!';
+    const [clickCount, setClickCount] = useState(0);
+
+    const handleIconClick = () => {
+        const newCount = clickCount + 1;
+        setClickCount(newCount);
+
+        if (newCount === 20) {
+            router.push('/dev');
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -16,7 +27,9 @@ export default function About() {
                     title: `About ${appName}`,
                 }}
             />
-            <Image source={require('@/../assets/images/icon.png')} style={styles.logo} />
+            <TouchableWithoutFeedback onPress={handleIconClick}>
+                <Image source={require('@/../assets/images/icon.png')} style={styles.logo} />
+            </TouchableWithoutFeedback>
             <Text style={styles.title}>{appName}</Text>
             <Text style={styles.version}>Version {appVersion}</Text>
             <Text style={styles.description}>
