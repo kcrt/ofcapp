@@ -8,28 +8,39 @@ const marginSize = 10;
 
 interface SquareButtonProps {
   title: string;
-  href: string;
+  href?: string;
   iconName: keyof typeof Ionicons.glyphMap;
   size?: number;
   disabled?: boolean;
+  onPress?: () => void;
 }
 
-export default function SquareButton({ title, href, iconName, size, disabled }: SquareButtonProps) {
+export default function SquareButton({ title, href, iconName, size, disabled, onPress }: SquareButtonProps) {
   const currentButtonSize = size || defaultButtonSize;
-  const buttonContent = <TouchableOpacity style={{...styles.button, ...{width: currentButtonSize, height: currentButtonSize}}} disabled={disabled}>
+  const buttonContent = (
+    <TouchableOpacity
+      style={{...styles.button, ...{width: currentButtonSize, height: currentButtonSize}}}
+      disabled={disabled}
+      onPress={onPress}
+    >
       <Ionicons name={iconName} size={currentButtonSize * 0.4} color={disabled ? "#aaaaaa" : "#333333"} />
       <Text style={[styles.buttonText, disabled && styles.disabledButtonText]}>{title}</Text>
-    </TouchableOpacity>;
+    </TouchableOpacity>
+  );
 
   if (disabled) {
     return buttonContent;
-  }else{
+  } else if (onPress) {
+    return buttonContent;
+  } else if (href) {
     return (
       <Link push href={href} asChild>
         {buttonContent}
       </Link>
     );
-    }
+  } else {
+    return buttonContent;
+  }
 }
 
 const styles = StyleSheet.create({

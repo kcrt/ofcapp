@@ -1,0 +1,88 @@
+{
+  "fill" : {
+    "linear-gradient" : [
+      "extended-gray:1.00000,0.50000",
+      "display-p3:0.85907,1.00000,0.97406,1.00000"
+    ]
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "fill" : "none",
+          "glass" : true,
+          "hidden" : true,
+          "image-name" : "hensegg.svg",
+          "name" : "hensegg",
+          "position" : {
+            "scale" : 0.4,
+            "translation-in-points" : [
+              40,
+              -100
+            ]
+          }
+        },
+        {
+          "blend-mode" : "normal",
+          "fill" : "none",
+          "glass" : true,
+          "image-name" : "frame.svg",
+          "name" : "frame",
+          "position" : {
+            "scale" : 0.5,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "blend-mode" : "normal",
+          "glass" : false,
+          "hidden" : true,
+          "image-name" : "cowsmilk.svg",
+          "name" : "cowsmilk",
+          "position" : {
+            "scale" : 0.4,
+            "translation-in-points" : [
+              -30,
+              -60
+            ]
+          }
+        },
+        {
+          "blend-mode" : "normal",
+          "fill" : {
+            "linear-gradient" : [
+              "extended-gray:0.25000,1.00000",
+              "extended-gray:0.50000,1.00000"
+            ]
+          },
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "sIgE.svg",
+          "name" : "sIgE",
+          "position" : {
+            "scale" : 0.45,
+            "translation-in-points" : [
+              0,
+              25
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : "shared"
+  }
+}

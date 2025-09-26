@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 2134 2134" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(2.08333,0,0,2.08333,0,0)">
+        <g id="IgE" transform="matrix(-1,1.22465e-16,-1.22465e-16,-1,1078.57,1837.94)">
+            <g id="App-Icon" serif:id="App Icon">
+                <g id="IgE1" serif:id="IgE">
+                    <g transform="matrix(-0.771402,0.636348,-0.636348,-0.771402,551.796,671.074)">
+                        <g transform="matrix(144,0,0,144,481.864,131.809)">
+                        </g>
+                        <text x="385.816px" y="131.809px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:144px;fill:rgb(153,153,153);">Y</text>
+                    </g>
+                    <g transform="matrix(-1,4.44089e-16,-4.44089e-16,-1,1275.66,949.754)">
+                        <g transform="matrix(144,0,0,144,481.864,131.809)">
+                        </g>
+                        <text x="385.816px" y="131.809px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:144px;fill:rgb(153,153,153);">Y</text>
+                    </g>
+                    <g transform="matrix(-0.965926,-0.258819,0.258819,-0.965926,1350.19,1061.98)">
+                        <g transform="matrix(144,0,0,144,481.864,131.809)">
+                        </g>
+                        <text x="385.816px" y="131.809px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:144px;fill:rgb(153,153,153);">Y</text>
+                    </g>
+                    <g transform="matrix(0.601504,0,0,1.25473,625.101,-260.408)">
+                        <ellipse cx="360.5" cy="969.594" rx="66.5" ry="31.406" style="fill:rgb(153,153,153);"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

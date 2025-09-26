@@ -1,0 +1,104 @@
+{
+  "@LanguageName": {
+    "en": "English",
+    "ja": "日本語"
+  },
+  "@Settings": {
+    "ja": "設定"
+  },
+  "@Today": {
+    "ja": "今日のOFC"
+  },
+  "@All": {
+    "ja": "すべて"
+  },
+  "@AboutApp": {
+    "en": "About...",
+    "ja": "アプリについて"
+  },
+  "@Language": {
+    "en": "Language",
+    "ja": "言語"
+  },
+  "@CurrentLanguage": {
+    "en": "Current Language",
+    "ja": "現在の言語"
+  },
+  "@LanguageChange": {
+    "en": "Language Change",
+    "ja": "言語変更"
+  },
+  "@LanguageChangeConfirm": {
+    "en": "Switch to this language?",
+    "ja": "この言語に切り替えますか？"
+  },
+  "@Cancel": {
+    "en": "Cancel",
+    "ja": "キャンセル"
+  },
+  "@OK": {
+    "en": "OK",
+    "ja": "OK"
+  },
+  "@Age": {
+    "ja": "年齢"
+  },
+  "@Sex": {
+    "ja": "性別"
+  },
+  "@Male": {
+    "ja": "男性"
+  },
+  "@Female": {
+    "ja": "女性"
+  },
+  "@Yes": {
+    "ja": "はい"
+  },
+  "@No": {
+    "ja": "いいえ"
+  },
+  "@---------- 以下、OFCApp独自 ----------": {},
+  "@PredictOFC": {
+    "en": "Predict OFC",
+    "ja": "OFC予測"
+  },
+  "@Information documents": {
+    "ja": "情報文書"
+  },
+  "@AvailableCurves": {
+    "en": "Available Curves",
+    "ja": "予測メニュー"
+  },
+  "@Probability of failing OFC is:": {
+    "ja": "OFC陽性確率:"
+  },
+  "@Adjust factors:": {
+    "ja": "調整因子:"
+  },
+  "@Curve adjusted for the factors set above.": {
+    "ja": "曲線は上記の因子で調整されています。"
+  },
+  "@Specific IgE": {
+    "ja": "特異的IgE"
+  },
+  "@Protein dose": {
+    "ja": "タンパク量"
+  },
+  "@Atopic dermatitis": {
+    "ja": "アトピー性皮膚炎"
+  },
+  "@Bronchial asthma": {
+    "ja": "気管支喘息"
+  },
+  "@Allergic rhinitis": {
+    "ja": "アレルギー性鼻炎"
+  },
+  "@History of anaphylaxis": {
+    "ja": "アナフィラキシーの既往"
+  },
+  "@years_age": {
+    "en": "years",
+    "ja": "歳"
+  },
+}

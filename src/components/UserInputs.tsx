@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Switch, TouchableOpacity, Modal, Pressable, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { InputItemType } from '@/appdata/formulas.zod';
-import { getDisplayString, MultilangStringType } from '@/utils/i18n';
+import { getDisplayString, MultilangString } from '@/utils/i18n';
 
-const defaultLabels: Record<string, MultilangStringType | string> = {
-  age: "Age",
+const defaultLabels: Record<string, MultilangString | string> = {
+  age: "@Age",
   IgE: "IgE",
-  sIgE: "Specific IgE",
-  proteindose: "Protein Dose",
-  sex: "Sex"
+  sIgE: "@Specific IgE",
+  proteindose: "@Protein dose",
+  sex: "@Sex"
 };
-const defaultUnits: Record<string, MultilangStringType | string> = {
-  age: "years",
+const defaultUnits: Record<string, MultilangString | string> = {
+  age: "@years_age",
   IgE: "IU/L",
   sIgE: "kUA/L",
   proteindose: "mg"

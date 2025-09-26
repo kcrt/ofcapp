@@ -3,9 +3,12 @@
         "name": "kcrt-egg",
         "title": {
             "en": "Hen's egg step-up from 1g to 1/2 egg",
-            "ja": "鶏卵 1-2g から 1/2 個へステップアップ"
+            "ja": "鶏卵少量摂取(1-2g) から 1/2 個へステップアップ"
         },
-        "shorttitle": "Half egg step up",
+        "shorttitle": {
+            "en": "Half egg step up",
+            "ja": "鶏卵少量→全卵1/2個"
+        },
         "info": "2018, Kyohei Takahashi",
         "foodtype": "egg",
         "references": {
@@ -27,28 +30,34 @@
             {
                 "name": "EW",
                 "type": "sIgE",
-                "caption": "Egg white sIgE"
+                "caption": {
+                    "en": "Egg white sIgE",
+                    "ja": "卵白特異的IgE"
+                }
             },
             {
                 "name": "OVM",
                 "type": "sIgE",
-                "caption": "Ovomucoid sIgE",
+                "caption": {
+                    "en": "Ovomucoid sIgE",
+                    "ja": "オボムコイド特異的IgE"
+                },
                 "mode": "primary"
             },
             {
                 "name": "AD",
                 "type": "boolean",
-                "caption": "Atopic dermatitis"
+                "caption": "@Atopic dermatitis"
             },
             {
                 "name": "BA",
                 "type": "boolean",
-                "caption": "Bronchial asthma"
+                "caption": "@Bronchial asthma"
             },
             {
                 "name": "AR",
                 "type": "boolean",
-                "caption": "Allergic rhinitis"
+                "caption": "@Allergic rhinitis"
             }
         ],
         "output": {
@@ -71,16 +80,28 @@
     },
     {
         "name": "yanagida-bw",
-        "title": "Buckwheat OFC",
-        "shorttitle": "Buckwheat",
-        "note": "Please note that reactions of buckwheat are rare, but often anaphylactic.",
+        "title": {
+            "en": "Buckwheat OFC",
+            "ja": "そば OFC"
+        },
+        "shorttitle": {
+            "en": "Buckwheat",
+            "ja": "そば"
+        },
+        "note": {
+            "en": "Please note that reactions of buckwheat are rare, but often anaphylactic.",
+            "ja": "そばは陽性率は低いですが、しばしばアナフィラキシーを引き起こすことがあります。"
+        },
         "foodtype": "other",
         "references": {"Yanagida, 2016": "doi:10.1111/pai.12531"},
         "inputs": [
             {
                 "name": "BW",
                 "type": "sIgE",
-                "caption": "Buckwheat sIgE",
+                "caption": {
+                    "en": "Buckwheat sIgE",
+                    "ja": "そば特異的IgE"
+                },
                 "mode": "primary"
             }
         ],
@@ -97,9 +118,14 @@
     },
     {
         "name": "yanagida-bw-fage3",
-        "title": "Buckwheat OFC (Fag e 3)",
-        "shorttitle": "Buckwheat by Fag e 3",
-        "info": "",
+        "title": {
+            "en": "Buckwheat OFC (Fag e 3)",
+            "ja": "そば OFC (Fag e 3)"
+        },
+        "shorttitle": {
+            "en": "Buckwheat (Fag e 3)",
+            "ja": "そば (Fag e 3)"
+        },
         "foodtype": "other",
         "references": {"Yanagida, 2016": "doi:10.1111/pai.12531"},
         "inputs": [
@@ -123,17 +149,25 @@
     },
     {
         "name": "yanagida-ikra",
-        "title": "Ikra (Salmon roe) 10g OFC",
-        "shorttitle": "Ikra",
-        "info": "",
-        "note": "10g of raw salmon roe (3250mgPro) is equal to amount in one sushi roll",
+        "title": {
+            "en": "Ikra (Salmon roe) 10g OFC",
+            "ja": "イクラ 10g OFC"
+        },
+        "shorttitle": {"en": "Ikra", "ja": "イクラ"},
+        "note": {
+            "en": "10g of raw salmon roe (3250mgPro) is equal to amount in one sushi roll",
+            "ja": "イクラ10g（3250mgPro）は、寿司1貫に相当します。"
+        },
         "foodtype": "other",
         "references": {"Yanagida, 2016": "doi:10.1111/pai.12531"},
         "inputs": [
             {
                 "name": "Ikra",
                 "type": "sIgE",
-                "caption": "ikra (salmon roe) sIgE",
+                "caption": {
+                    "en": "Ikra (salmon roe) sIgE",
+                    "ja": "イクラ特異的IgE"
+                },
                 "mode": "primary"
             }
         ],
@@ -150,23 +184,37 @@
     },
     {
         "name": "makita-pollock",
-        "title": "Tarako (Pollock roe) 10g OFC",
-        "shorttitle": "Tarako",
-        "info": "",
-        "note": "10-20g of pollock roe is used for OFC. Small patient numbers.",
+        "title": {
+            "en": "Tarako (Pollock roe) 10g OFC",
+            "ja": "たらこ 10g OFC"
+        },
+        "shorttitle": {
+            "en": "Tarako",
+            "ja": "たらこ"
+        },
+        "note": {
+            "en": "10-20g of pollock roe is used for OFC. Small number of patients in original article.",
+            "ja": "たらこ10-20g OFC、原著は少数例です。"
+        },
         "foodtype": "other",
         "references": {"Makita, 2017": "doi:10.1016/j.alit.2017.11.005"},
         "inputs": [
             {
                 "name": "Tarako",
                 "type": "sIgE",
-                "caption": "tarako (pollock roe) sIgE",
+                "caption": {
+                    "en": "tarako (pollock roe) sIgE",
+                    "ja": "たらこ特異的IgE"
+                },
                 "mode": "primary"
             },
             {
                 "name": "Ikra",
                 "type": "sIgE",
-                "caption": "ikra (salmon roe) sIgE"
+                "caption": {
+                    "en": "ikra (salmon roe) sIgE",
+                    "ja": "イクラ特異的IgE"
+                }
             }
         ],
         "calc": [
@@ -190,7 +238,10 @@
     },
     {
         "name": "kcrt-egg-bmd-deprived",
-        "title": "鶏卵 負荷試験 による導入",
+        "title": {
+            "en": "Heated egg OFC (BMD)",
+            "ja": "加熱鶏卵 BMD"
+        },
         "shorttitle": {
             "en": "Egg BMD",
             "ja": "鶏卵 BMD"
@@ -207,15 +258,16 @@
                     "ja": "加熱卵白タンパク量"
                 },
                 "items": [
-                    [ "全卵 1g", 70 ],
-                    [ "全卵 2g", 140 ],
-                    [ "卵白 1g", 100 ],
-                    [ "卵白 2g", 200 ],
-                    [ "卵黄つなぎ", 150 ],
-                    [ "全卵 1/8個", 570 ],
-                    [ "たまこな 25", 17 ],
-                    [ "たまこな 250", 174 ],
-                    [ "たまこな 750", 522 ]
+                    [ "Whole egg 1g", 70 ],
+                    [ "Whole egg 2g", 140 ],
+                    [ "Egg white 1g", 100 ],
+                    [ "Egg white 2g", 200 ],
+                    [ "One egg yolk as binder", 150 ],
+                    [ "Whole egg 1/8 piece", 570 ],
+                    [ "One whole egg", 4560 ],
+                    [ "Tama-kona® 25 egg powder", 17 ],
+                    [ "Tama-kona® 250 egg powder", 174 ],
+                    [ "Tama-kona® 750 egg powder", 522 ]
                 ]
             },
             {
@@ -229,22 +281,22 @@
             {
                 "name": "AD",
                 "type": "boolean",
-                "caption": "Atopic dermatitis"
+                "caption": "@Atopic dermatitis"
             },
             {
                 "name": "BA",
                 "type": "boolean",
-                "caption": "Bronchial asthma"
+                "caption": "@Bronchial asthma"
             },
             {
                 "name": "AR",
                 "type": "boolean",
-                "caption": "Allergic rhinitis"
+                "caption": "@Allergic rhinitis"
             },
             {
                 "name": "AnHist",
                 "type": "boolean",
-                "caption": "History of anaphylaxis"
+                "caption": "@History of anaphylaxis"
             },
             {
                 "name": "IgE",
@@ -253,12 +305,18 @@
             {
                 "name": "EW",
                 "type": "sIgE",
-                "caption": "Egg white sIgE"
+                "caption": {
+                    "en": "Egg white sIgE",
+                    "ja": "卵白特異的IgE"
+                }
             },
             {
                 "name": "OVM",
                 "type": "sIgE",
-                "caption": "Ovomucoid sIgE",
+                "caption": {
+                    "en": "Ovomucoid sIgE",
+                    "ja": "オボムコイド特異的IgE"
+                },
                 "mode": "primary"
             }
         ],
@@ -272,7 +330,7 @@
                     "male": 0.101,
                     "AD": 0.49672,
                     "BA": 0.999,
-                    "AR": -1.741,
+                    "AR": -0.1741,
                     "AnHist": 0.279,
                     "LogIgE": -0.856,
                     "LogProtein": 1.3152,

@@ -9,7 +9,7 @@ import ErrorMessagePage from '@/components/ErrorMessagePage';
 import GraphArea from '@/components/GraphArea'; // Import the new component
 import FactorInputController from '@/components/FactorInputController'; // Import the new FactorInputController component
 import { type InputItemType as FormulaInputSchema } from '@/appdata/formulas.zod';
-import { getDisplayString } from '@/utils/i18n';
+import { getDisplayString as t } from '@/utils/i18n';
 import { parseReferenceLink, openLink } from '@/utils/links';
 import { calculateAdjustedIntercept } from '@/utils/calculationHelpers'; // Import the new helper
 import logistic from '@/utils/mathHelpers'; // Import the logistic function
@@ -31,7 +31,7 @@ function PrimaryFactorSelector({
   }
   return (
     <View style={styles.selectorContainer}>
-      <Text style={styles.selectorLabel}>Select Primary Factor:</Text>
+      <Text style={styles.selectorLabel}></Text>
       <View style={styles.selectorButtons}>
         {primaryFactorCandidates.map(input => (
           <TouchableOpacity
@@ -48,7 +48,7 @@ function PrimaryFactorSelector({
                 selectedPrimaryFactorName === input.name && styles.selectorButtonTextActive
               ]}
             >
-              {getDisplayString('caption' in input && input.caption ? input.caption : input.name)}
+              {t('caption' in input && input.caption ? input.caption : input.name)}
             </Text>
           </TouchableOpacity>
         ))}
@@ -71,7 +71,7 @@ export default function ProbabilityCurvePage() {
       />
     );
   }
-  const displayModelTitle = getDisplayString(model.shorttitle);
+  const displayModelTitle = t(model.shorttitle);
 
   const primaryFactorCandidates = useMemo(() => {
     if (!model) return [];
@@ -172,52 +172,52 @@ export default function ProbabilityCurvePage() {
   return (
     <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContentContainer}>
       <Stack.Screen options={{ title: displayModelTitle }} />
-      
-      <PrimaryFactorSelector
-        primaryFactorCandidates={primaryFactorCandidates}
-        selectedPrimaryFactorName={selectedPrimaryFactorName}
-        onSelectPrimaryFactor={setSelectedPrimaryFactorName}
-      />
 
       {model.output.result.graph !== "hide" && primaryInput && (
-      <GraphArea
-        points={points}
-        minXValue={minXValue} // Use generic minXValue
-        maxXValue={maxXValue} // Use generic maxXValue
-        xAxisLabelsNumber={xAxisLabelsNumber} // Use generic xAxisLabelsNumber
-        highlightPoint={calculatedPoint}
-        chartHeight={chartHeight}
-        chartPadding={chartPadding}
-        screenWidth={screenWidthForGraph}
-        xAxisTitle={getDisplayString('caption' in primaryInput ? primaryInput.caption : primaryInput.name)}
-        // Note: GraphArea might need to be updated to accept minXValue, maxXValue, and xAxisLabel
-      />
+        <>
+          <PrimaryFactorSelector
+            primaryFactorCandidates={primaryFactorCandidates}
+            selectedPrimaryFactorName={selectedPrimaryFactorName}
+            onSelectPrimaryFactor={setSelectedPrimaryFactorName}
+          />
+          <GraphArea
+            points={points}
+            minXValue={minXValue}
+            maxXValue={maxXValue}
+            xAxisLabelsNumber={xAxisLabelsNumber}
+            highlightPoint={calculatedPoint}
+            chartHeight={chartHeight}
+            chartPadding={chartPadding}
+            screenWidth={screenWidthForGraph}
+            xAxisTitle={t('caption' in primaryInput ? primaryInput.caption : primaryInput.name)}
+          />
+        </>
       )}
 
 
       {calculatedPoint && (
         <Text style={styles.probabilityText}>
-          Probability of failing OFC is: {(calculatedPoint.y * 100).toFixed(1)}%
+          {t('@Probability of failing OFC is:')} {(calculatedPoint.y * 100).toFixed(1)}%
         </Text>
       )}
       
       {model.inputs.length > 0 && (
         <View style={styles.controlsContainer}>
-          <Text style={styles.subTitle}>Adjust factors:</Text>
+          <Text style={styles.subTitle}>{t("@Adjust factors:")}</Text>
           <FactorInputController
             modelInputs={model.inputs}
             setFactorValuesState={setFactorValues}
             currentFactorValues={factorValues}
             onFactorValueChange={handleFactorChange}
           />
-         <Text style={styles.subTitleNote}>Curve adjusted for the factors set above.</Text>
+         <Text style={styles.subTitleNote}>{t("@Curve adjusted for the factors set above.")}</Text>
         </View>
       )}
       
       {model.note && (
         <View style={styles.infoSection}>
           <Text style={styles.subTitle}>Note</Text>
-          <Text style={styles.infoText}>{getDisplayString(model.note)}</Text>
+          <Text style={styles.infoText}>{t(model.note)}</Text>
         </View>
       )}
 
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 10, // Reduced margin
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: 'left',
     color: '#333',
   },
   probabilityText: {

@@ -22,7 +22,7 @@ export default function About() {
             <Text style={styles.description}>
                 {appDescription}
             </Text>
-            <Text style={styles.footer}>© {new Date().getFullYear()} {appName} Team</Text>
+            <Text style={styles.footer}>© {new Date().getFullYear()} Kyohei Takahashi, NHO Sagamihara Hospital {appName} Team</Text>
         </View>
     );
 }

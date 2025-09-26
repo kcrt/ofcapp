@@ -2,22 +2,22 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Link, Stack } from 'expo-router';
 import formulas, { type Formula } from '@/utils/formulas';
-import { getDisplayString } from '@/utils/i18n';
+import { getDisplayString as t } from '@/utils/i18n';
 
 export default function ProbabilityPage() {
   const renderItem = ({ item }: { item: Formula }) => (
-    <Link href={`/probability/${item.name}`} asChild>
+    <Link href={`/predictofc/${item.name}`} asChild>
       <TouchableOpacity style={styles.itemContainer}>
-        <Text style={styles.itemTitle}>{getDisplayString(item.title)}</Text>
-        <Text style={styles.itemShortTitle}>{getDisplayString(item.shorttitle)}</Text>
+        <Text style={styles.itemTitle}>{t(item.title)}</Text>
+        {/*<Text style={styles.itemShortTitle}>{t(item.shorttitle)}</Text>*/}
       </TouchableOpacity>
     </Link>
   );
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: 'Probability Curves' }} />
-      <Text style={styles.header}>Available Curves</Text>
+      <Stack.Screen options={{ title: t('@PredictOFC') }} />
+      <Text style={styles.header}>{t('@AvailableCurves')}</Text>
       <FlatList
         data={formulas.filter((f) => f.output.mode === "ofc" || f.output.mode === "ed")}
         renderItem={renderItem}
