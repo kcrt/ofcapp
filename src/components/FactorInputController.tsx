@@ -5,7 +5,7 @@ import { type InputItemType as FormulaInputSchema } from '@/appdata/formulas.zod
 const DEFAULT_INPUT_VALUES: { [key: string]: string | boolean } = {
   "age": "5", // years
   "IgE": "100", // IU/mL
-  "sIgE": "1.0", // kUA/L
+  "sIgE": "10.0", // kUA/L
   "proteindose": "100.0", // protein dose [mg]
   "boolean": false,
   "sex": false, // Default for 'sex', male = true, female = false

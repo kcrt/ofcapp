@@ -59,8 +59,6 @@ export function getDisplayString (text: MultilangString | undefined, language?: 
         }
       }
     } else {
-      // Not a valid translation key, warn and return as is
-      console.warn(`Translation key "${text}" not found.`);
       return text;
     }
   } else if (text === null) {

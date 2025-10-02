@@ -6,13 +6,13 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 const PAGE_MAX_WIDTH = 600;
 import formulas from '@/utils/formulas';
 import ErrorMessagePage from '@/components/ErrorMessagePage';
-import GraphArea from '@/components/GraphArea'; // Import the new component
-import FactorInputController from '@/components/FactorInputController'; // Import the new FactorInputController component
+import GraphArea from '@/components/GraphArea';
+import FactorInputController from '@/components/FactorInputController';
 import { type InputItemType as FormulaInputSchema } from '@/appdata/formulas.zod';
 import { getDisplayString as t } from '@/utils/i18n';
 import { parseReferenceLink, openLink } from '@/utils/links';
-import { calculateAdjustedIntercept } from '@/utils/calculationHelpers'; // Import the new helper
-import logistic from '@/utils/mathHelpers'; // Import the logistic function
+import { calculateAdjustedIntercept } from '@/utils/calculationHelpers';
+import logistic from '@/utils/mathHelpers';
 
 // Component for selecting the primary factor
 interface PrimaryFactorSelectorProps {

@@ -64,26 +64,50 @@ export default function UserInputs({ inputs, currentValues, onValueChange }: Use
         );
       case 'age':
       case 'IgE':
-      case 'sIgE':
+      case 'sIgE': {
+        // Check if numeric input is outside valid range
+        const isOutOfRange = ('min' in input || 'max' in input) && value !== undefined && value !== '' && (() => {
+          const numValue = parseFloat(String(value));
+          if (!isNaN(numValue)) {
+            const min = 'min' in input && typeof input.min === 'number' ? input.min : -Infinity;
+            const max = 'max' in input && typeof input.max === 'number' ? input.max : Infinity;
+            return numValue < min || numValue > max;
+          }
+          return false;
+        })();
+
         return (
-          <View key={input.name} style={styles.inputRow}>
-            <Text style={styles.label}>{label}:</Text>
-            {/* This container ensures the input field and unit take up remaining space consistently */}
-            <View style={styles.inputAndUnitContainer}>
-              <TextInput
-                style={[styles.input, unit ? styles.inputWithUnit : {}]}
-                value={String(value ?? '')}
-                onChangeText={(text) => onValueChange(input.name, text)}
-                keyboardType="numeric"
-              />
-              {unit && (
-                <View style={styles.unitDisplayBox}>
-                  <Text style={styles.unitDisplayText}>{unit}</Text>
-                </View>
-              )}
+          <View key={input.name} style={styles.inputColumn}>
+            <View style={styles.inputRow}>
+              <Text style={styles.label}>{label}:</Text>
+              {/* This container ensures the input field and unit take up remaining space consistently */}
+              <View style={styles.inputAndUnitContainer}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    unit ? styles.inputWithUnit : {},
+                    isOutOfRange ? styles.inputOutOfRange : {}
+                  ]}
+                  value={String(value ?? '')}
+                  onChangeText={(text) => onValueChange(input.name, text)}
+                  keyboardType="numeric"
+                />
+                {unit && (
+                  <View style={styles.unitDisplayBox}>
+                    <Text style={styles.unitDisplayText}>{unit}</Text>
+                  </View>
+                )}
+              </View>
             </View>
+            {/* Show warning message for inputs outside constraints */}
+            {isOutOfRange && (
+              <Text style={styles.warningText}>
+                ⚠️ {getDisplayString('@Value outside recommended range')} ({('min' in input && typeof input.min === 'number') ? input.min : '?'}-{('max' in input && typeof input.max === 'number') ? input.max : '?'} {unit || ''})
+              </Text>
+            )}
           </View>
         );
+      }
       case 'proteindose': {
         const [modalVisible, setModalVisible] = useState(false);
         const currentValue = value !== undefined ? String(value) : '';
@@ -166,11 +190,13 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
   },
+  inputColumn: { // Column container for input with potential warning
+    marginBottom: 10,
+    paddingHorizontal: 5,
+  },
   inputRow: { // For rows with a label and a direct input control (e.g. age, IgE, sIgE)
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
-    paddingHorizontal: 5,
   },
   factorRow: { // Used for rows where label and control are spaced apart (e.g., sex, proteindose)
     flexDirection: 'row',
@@ -308,5 +334,17 @@ const styles = StyleSheet.create({
   unitDisplayText: {
     fontSize: 16,
     color: '#555', // Standard text color for units
+  },
+  inputOutOfRange: {
+    borderColor: '#FF8C00', // Orange border for out-of-range inputs
+    borderWidth: 2,
+    backgroundColor: '#FFF8DC', // Light orange background
+  },
+  warningText: {
+    fontSize: 12,
+    color: '#FF8C00', // Orange text color
+    marginTop: 4,
+    paddingLeft: 140, // Align with input field (label width + margin)
+    fontStyle: 'italic',
   },
 });

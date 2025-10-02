@@ -32,6 +32,10 @@
     "en": "Switch to this language?",
     "ja": "この言語に切り替えますか？"
   },
+  "@AppQuestionnaire": {
+    "en": "Questionnaire for App",
+    "ja": "アプリアンケート"
+  },
   "@Cancel": {
     "en": "Cancel",
     "ja": "キャンセル"
@@ -65,6 +69,10 @@
   },
   "@Information documents": {
     "ja": "情報文書"
+  },
+  "@AllergyExaminationAid": {
+    "en": "Allergy Examination Aid",
+    "ja": "アレルギー診療"
   },
   "@AvailableCurves": {
     "en": "Available Curves",
@@ -100,5 +108,9 @@
   "@years_age": {
     "en": "years",
     "ja": "歳"
+  },
+  "@Value outside recommended range": {
+    "en": "Value outside recommended range",
+    "ja": "推奨範囲外の値です"
   },
 }

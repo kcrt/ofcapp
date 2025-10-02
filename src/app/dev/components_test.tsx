@@ -10,12 +10,12 @@ export default function ComponentsTest() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>SquareButton</Text>
         <View style={styles.buttonRow}>
-          <SquareButton title="計算" iconName="calculator" />
-          <SquareButton title="計算" iconName="calculator" mode="demo" />
-          <SquareButton title="新機能" iconName="flask" mode="beta" />
-          <SquareButton title="警告" iconName="warning" mode="important" />
-          <SquareButton title="新着" iconName="sparkles" mode="new" />
-          <SquareButton title="無効" iconName="ban" disabled />
+          <SquareButton title="計算" iconName="Ionicons.calculator" />
+          <SquareButton title="計算" iconName="Ionicons.calculator" mode="demo" />
+          <SquareButton title="新機能" iconName="Ionicons.flask" mode="beta" />
+          <SquareButton title="警告" iconName="Ionicons.warning" mode="important" />
+          <SquareButton title="新着" iconName="Ionicons.sparkles" mode="new" />
+          <SquareButton title="無効" iconName="Ionicons.ban" disabled />
         </View>
       </View>
     </ScrollView>

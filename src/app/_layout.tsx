@@ -4,10 +4,6 @@ import { setDisplayLanguage } from '@/utils/i18n';
 import { SettingsManager } from '@/utils/settings';
 
 export default function RootLayout() {
-  useEffect(() => {
-    loadLanguageSettings();
-  }, []);
-
   const loadLanguageSettings = async () => {
     try {
       const language = await SettingsManager.getLanguage();
@@ -16,6 +12,10 @@ export default function RootLayout() {
       console.warn('Failed to load language preference:', error);
     }
   };
+
+  useEffect(() => {
+    loadLanguageSettings();
+  }, []);
 
   return <Stack
     screenOptions={{

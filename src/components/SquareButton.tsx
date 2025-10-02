@@ -1,27 +1,32 @@
 import React from 'react';
 import { Text, StyleSheet, TouchableOpacity, Platform, View, Dimensions, Pressable } from 'react-native';
 import { Link } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import * as Icons from '@expo/vector-icons';
 
 const defaultButtonSize = 128;
 const marginSize = 10;
 
-interface SquareButtonProps {
+export interface SquareButtonProps {
   title: string;
   href?: string;
-  iconName: keyof typeof Ionicons.glyphMap;
+  iconName: string; // Format: "IconFamily.icon-name" e.g., "Ionicons.apps-outline"
   size?: number;
   disabled?: boolean;
   onPress?: () => void;
   mode?: 'demo' | 'beta' | 'important' | 'new';
 }
 
+// see `https://icons.expo.fyi/Index` to find icon
+
 export default function SquareButton({ title, href, iconName, size, disabled, onPress, mode }: SquareButtonProps) {
   const currentButtonSize = size || defaultButtonSize;
 
+  const [iconFamily, iconNameOnly] = iconName.split('.');
+  const IconComponent = Icons[iconFamily as keyof typeof Icons] as any;
+
   const buttonInnerContent = (
     <>
-      <Ionicons name={iconName} size={currentButtonSize * 0.4} color={disabled ? "#aaaaaa" : "#333333"} />
+      <IconComponent name={iconNameOnly} size={currentButtonSize * 0.4} color={disabled ? "#aaaaaa" : "#333333"} />
       <Text style={[styles.buttonText, disabled && styles.disabledButtonText]}>{title}</Text>
     </>
   );
