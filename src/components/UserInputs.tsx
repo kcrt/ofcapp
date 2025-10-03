@@ -80,7 +80,6 @@ export default function UserInputs({ inputs, currentValues, onValueChange }: Use
           <View key={input.name} style={styles.inputColumn}>
             <View style={styles.inputRow}>
               <Text style={styles.label}>{label}:</Text>
-              {/* This container ensures the input field and unit take up remaining space consistently */}
               <View style={styles.inputAndUnitContainer}>
                 <TextInput
                   style={[
@@ -99,7 +98,6 @@ export default function UserInputs({ inputs, currentValues, onValueChange }: Use
                 )}
               </View>
             </View>
-            {/* Show warning message for inputs outside constraints */}
             {isOutOfRange && (
               <Text style={styles.warningText}>
                 ⚠️ {getDisplayString('@Value outside recommended range')} ({('min' in input && typeof input.min === 'number') ? input.min : '?'}-{('max' in input && typeof input.max === 'number') ? input.max : '?'} {unit || ''})
@@ -114,27 +112,29 @@ export default function UserInputs({ inputs, currentValues, onValueChange }: Use
         const items = Array.isArray(input.items) ? input.items : [];
 
         return (
-          <View key={input.name} style={styles.factorRow}>
-            <Text style={styles.label}>{label}:</Text>
-            <View style={styles.inputWithButtonContainer}>
-              <TextInput
-                style={[styles.input, styles.inputWithUnit]}
-                value={currentValue}
-                onChangeText={(text) => onValueChange(input.name, text)}
-                keyboardType="numeric"
-                placeholder="e.g. 100"
-              />
-              {unit && (
-                <View style={styles.unitDisplayBox}>
-                  <Text style={styles.unitDisplayText}>{unit}</Text>
-                </View>
-              )}
-              <TouchableOpacity
-                style={styles.modalOpenButtonChained}
-                onPress={() => setModalVisible(true)}
-              >
-                <MaterialCommunityIcons name="menu-down" size={24} color="#333" />
-              </TouchableOpacity>
+          <View key={input.name} style={styles.inputColumn}>
+            <View style={styles.inputRow}>
+              <Text style={styles.label}>{label}:</Text>
+              <View style={styles.inputWithButtonContainer}>
+                <TextInput
+                  style={[styles.input, styles.inputWithUnit]}
+                  value={currentValue}
+                  onChangeText={(text) => onValueChange(input.name, text)}
+                  keyboardType="numeric"
+                  placeholder="e.g. 100"
+                />
+                {unit && (
+                  <View style={styles.unitDisplayBox}>
+                    <Text style={styles.unitDisplayText}>{unit}</Text>
+                  </View>
+                )}
+                <TouchableOpacity
+                  style={styles.modalOpenButtonChained}
+                  onPress={() => setModalVisible(true)}
+                >
+                  <MaterialCommunityIcons name="menu-down" size={20} color="#333" />
+                </TouchableOpacity>
+              </View>
             </View>
 
             <Modal
@@ -190,17 +190,16 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
   },
-  inputColumn: { // Column container for input with potential warning
+  inputColumn: {
     marginBottom: 10,
     paddingHorizontal: 5,
   },
-  inputRow: { // For rows with a label and a direct input control (e.g. age, IgE, sIgE)
+  inputRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  factorRow: { // Used for rows where label and control are spaced apart (e.g., sex, proteindose)
+  factorRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 12,
     paddingVertical: 8,
@@ -208,48 +207,55 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    marginRight: 10,
-    width: 130, // Ensures all labels have consistent width for alignment
+    marginRight: 8,
+    width: 95,
+    flexShrink: 0,
   },
   input: {
-    flex: 1, // Allows input to expand within its parent container
+    flex: 1,
+    flexShrink: 1,
+    minWidth: 0,
     borderWidth: 1,
     borderColor: '#ccc',
     paddingVertical: 8,
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
     borderRadius: 4,
     fontSize: 16,
-    minHeight: 40, // Ensures a minimum touch target height
+    minHeight: 40,
   },
-  inputAndUnitContainer: { // Groups TextInput and its unit, allowing them to flex together
-    flex: 1, // Takes remaining horizontal space in the row
+  inputAndUnitContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    minWidth: 0,
   },
   inputWithUnit: {
-    borderTopRightRadius: 0, // To seamlessly join with the unit box
-    borderBottomRightRadius: 0, // To seamlessly join with the unit box
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
   },
-  inputWithButtonContainer: { // Groups TextInput, unit, and dropdown button for proteindose
-    flex: 1, // Ensures this group takes available space next to the label
+  inputWithButtonContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    minWidth: 0,
   },
-  modalOpenButtonChained: { // For the dropdown button in the proteindose input
-    padding: 8,
-    marginLeft: 0, // Aligns directly next to the input field or unit
+  modalOpenButtonChained: {
+    paddingHorizontal: 6,
+    paddingVertical: 8,
+    marginLeft: 0,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderRightWidth: 1, // Visually separates from the input field
+    borderRightWidth: 1,
     borderColor: '#ccc',
-    height: 40, // Matches input height for alignment
+    height: 40,
     justifyContent: 'center',
     backgroundColor: '#f0f0f0',
-    borderTopRightRadius: 0, // Part of a chained group of components
-    borderBottomRightRadius: 0, // Part of a chained group of components
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
+    flexShrink: 0,
   },
   sexButton: {
-    flex: 1, // Allows the button to fill available space next to the label
+    flex: 1,
     padding: 8,
     borderRadius: 5,
     borderWidth: 1,
@@ -257,26 +263,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  switchRow: { // For rows containing a label and a Switch component
+  switchRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between', // Pushes label and switch to opposite ends
+    justifyContent: 'space-between',
     marginBottom: 10,
     paddingHorizontal: 5,
   },
-  // Modal Styles
-  modalOverlay: { // Covers the screen behind the modal
+  modalOverlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dims the background to focus on the modal
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  modalContentView: { // The main container for modal content
+  modalContentView: {
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 20,
-    alignItems: 'stretch', // Ensures content like the title and items use available width
+    alignItems: 'stretch',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -284,9 +289,9 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5, // Android shadow
-    width: '80%', // Defines the modal's width relative to the screen
-    maxHeight: '70%', // Prevents modal from being too tall on smaller screens
+    elevation: 5,
+    width: '80%',
+    maxHeight: '70%',
   },
   modalTitle: {
     fontSize: 18,
@@ -294,57 +299,58 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
-  modalItem: { // Individual selectable item in the modal
+  modalItem: {
     paddingVertical: 12,
     paddingHorizontal: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee', // Light separator line
+    borderBottomColor: '#eee',
   },
   modalItemText: {
     fontSize: 16,
     textAlign: 'center',
   },
-  modalCloseButton: { // Button to dismiss the modal
+  modalCloseButton: {
     marginTop: 20,
-    backgroundColor: '#007AFF', // Standard blue for actions
+    backgroundColor: '#007AFF',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 15,
-    alignSelf: 'center', // Centers the button
+    alignSelf: 'center',
   },
   modalCloseButtonText: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
   },
-  unitDisplayBox: { // Container for displaying the unit next to an input
-    backgroundColor: '#f0f0f0', // Provides visual separation for the unit
-    paddingHorizontal: 10,
+  unitDisplayBox: {
+    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 6,
     paddingVertical: 8,
     borderTopRightRadius: 4,
     borderBottomRightRadius: 4,
-    height: 40, // Matches input height for alignment
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderRightWidth: 1,
     borderColor: '#ccc',
+    flexShrink: 0,
   },
   unitDisplayText: {
-    fontSize: 16,
-    color: '#555', // Standard text color for units
+    fontSize: 14,
+    color: '#555',
   },
   inputOutOfRange: {
-    borderColor: '#FF8C00', // Orange border for out-of-range inputs
+    borderColor: '#FF8C00',
     borderWidth: 2,
-    backgroundColor: '#FFF8DC', // Light orange background
+    backgroundColor: '#FFF8DC',
   },
   warningText: {
     fontSize: 12,
-    color: '#FF8C00', // Orange text color
+    color: '#FF8C00',
     marginTop: 4,
-    paddingLeft: 140, // Align with input field (label width + margin)
+    paddingLeft: 103,
     fontStyle: 'italic',
   },
 });
