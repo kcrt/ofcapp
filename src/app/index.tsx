@@ -4,12 +4,12 @@ import SquareButton, { SquareButtonProps } from '@/components/SquareButton';
 import { getDisplayString, MultilangString } from '@/utils/i18n';
 
 const buttons: { title: MultilangString; href: string; disabled?: boolean, iconName: string, mode?: SquareButtonProps["mode"] }[] = [
-  { title: '@Today', href: '/today', iconName: 'Ionicons.today-outline', mode: "demo" },
-  { title: '@All', href: '/all', iconName: 'Ionicons.apps-outline', disabled: true },
+  // { title: '@Today', href: '/today', iconName: 'Ionicons.today-outline', disabled: true },
+  // { title: '@All', href: '/all', iconName: 'Ionicons.apps-outline', disabled: true },
   { title: '@PredictOFC', href: '/predictofc', iconName: 'MaterialCommunityIcons.chart-bell-curve-cumulative' },
   { title: '@Information documents', href: '/info', iconName: 'Ionicons.document-text-outline', disabled: true },
   { title: '@AllergyExaminationAid', href: '/allergy', iconName: 'FontAwesome6.hands-holding-child', disabled: true },
-  { title: '@AppQuestionnaire', href: 'https://profile.kcrt.net/', iconName: 'MaterialCommunityIcons.clipboard-edit-outline', disabled: true },
+  { title: '@AppQuestionnaire', href: 'https://forms.gle/axgPsMXfcsfCGkvj8', iconName: 'MaterialCommunityIcons.clipboard-edit-outline', mode: 'important' },
   { title: '@Settings', href: '/settings', iconName: 'Ionicons.settings-outline' },
   { title: '@AboutApp', href: '/about', iconName: 'Ionicons.information-circle-outline' },
 ];

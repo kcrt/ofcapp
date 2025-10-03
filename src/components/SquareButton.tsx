@@ -33,15 +33,18 @@ export default function SquareButton({ title, href, iconName, size, disabled, on
 
   const buttonContent = (
     <View style={{position: 'relative'}}>
-      {href ? (
+      {href && !disabled ? (
         <Link push href={href} asChild>
           <Pressable
             style={{...styles.button, ...{width: currentButtonSize, height: currentButtonSize}}}
-            disabled={disabled}
           >
             {buttonInnerContent}
           </Pressable>
         </Link>
+      ) : href && disabled ? (
+        <View style={{...styles.button, ...{width: currentButtonSize, height: currentButtonSize}}}>
+          {buttonInnerContent}
+        </View>
       ) : (
         <TouchableOpacity
           style={{...styles.button, ...{width: currentButtonSize, height: currentButtonSize}}}
