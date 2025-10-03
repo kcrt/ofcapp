@@ -158,7 +158,7 @@ export default function UserInputs({ inputs, currentValues, onValueChange }: Use
                           setModalVisible(false);
                         }}
                       >
-                        <Text style={styles.modalItemText}>{`${itemLabel} (${itemValue} mg)`}</Text>
+                        <Text style={styles.modalItemText}>{`${getDisplayString(itemLabel)} (${itemValue} mg)`}</Text>
                       </TouchableOpacity>
                     ))}
                   </ScrollView>

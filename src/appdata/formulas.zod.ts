@@ -48,7 +48,7 @@ const InputItemProteinDoseSchema = z.object({
   name: z.string(),
   type: z.literal("proteindose"),
   caption: MultilangStringSchema,
-  items: z.array(z.tuple([z.string(), z.number()]))
+  items: z.array(z.tuple([MultilangStringSchema, z.number()]))
 });
 const InputItemNumeric = z.object({
   name: z.string(),

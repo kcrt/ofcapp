@@ -1,5 +1,261 @@
 [
     {
+        "name": "kcrt-egg-bmd-2024",
+        "title": {
+            "en": "Heated egg OFC (BMD)",
+            "ja": "加熱鶏卵 完全除去中 (BMD)"
+        },
+        "shorttitle": {
+            "en": "Egg BMD",
+            "ja": "鶏卵 BMD"
+        },
+        "info": "対象：完全除去中、第62回小児アレルギー学会 デモンストレーション",
+        "note": {
+            "en": "This formula is not peer-reviewed nor validated. Demonstration purpose only.",
+            "ja": "この式は学会発表のデモンストレーション用に作成されており、査読・検証されているものではありません。"
+        },
+        "foodtype": "egg",
+        "references": {},
+        "inputs": [
+            {
+                "name": "Protein",
+                "type": "proteindose",
+                "caption": {
+                    "en": "Heated egg white protein dose",
+                    "ja": "加熱卵白タンパク量"
+                },
+                "items": [
+                    [ {"en": "Whole egg 1g", "ja": "加熱全卵 1g"}, 70 ],
+                    [ {"en": "Whole egg 2g", "ja": "加熱全卵 2g"}, 140 ],
+                    [ {"en": "Egg white 1g", "ja": "加熱卵白 1g"}, 100 ],
+                    [ {"en": "Egg white 2g", "ja": "加熱卵白 2g"}, 200 ],
+                    [ {"en": "One egg yolk as binder", "ja": "卵黄つなぎ 1個分"}, 150 ],
+                    [ {"en": "Whole egg 1/8 piece", "ja": "加熱全卵 1/8個"}, 570 ],
+                    [ {"en": "One whole egg", "ja": "加熱全卵 1個"}, 4560 ],
+                    [ {"en": "Tama-kona® 25 egg powder", "ja": "たまこな® 25"}, 17 ],
+                    [ {"en": "Tama-kona® 250 egg powder", "ja": "たまこな® 250"}, 174 ],
+                    [ {"en": "Tama-kona® 750 egg powder", "ja": "たまこな® 750"}, 522 ]
+                ]
+            },
+            {
+                "name": "age",
+                "type": "age",
+                "min": 0.5,
+                "max": 13
+            },
+            {
+                "name": "sex",
+                "type": "sex"
+            },
+            {
+                "name": "HasHistory",
+                "type": "boolean",
+                "caption": "@ImmediateHist"
+            },
+            {
+                "name": "IgE",
+                "type": "IgE"
+            },
+            {
+                "name": "OVM",
+                "type": "sIgE",
+                "caption": {
+                    "en": "Ovomucoid sIgE",
+                    "ja": "オボムコイド特異的IgE"
+                },
+                "mode": "primary"
+            }
+        ],
+        "output": {
+            "mode": "ed",
+            "result": {
+                "mode": "logistic",
+                "intercept": -7.39,
+                "beta": {
+                    "age": 0.1032,
+                    "male": 0.0460,
+                    "HasHistory": 0.0866,
+                    "LogIgE": -0.5148,
+                    "LogProtein": 1.0378,
+                    "LogOVM": 1.8428
+                }
+            }
+        }
+    },
+    {
+        "name": "kcrt-milk-bmd-2024",
+        "title": {
+            "en": "Milk OFC (BMD)",
+            "ja": "牛乳 完全除去中 (BMD)"
+        },
+        "shorttitle": {
+            "en": "Milk BMD",
+            "ja": "牛乳 BMD"
+        },
+        "info": "「食物経口負荷試験の標準的施行方法の確立と普及を目指す研究」研究班",
+        "note": {
+            "en": "This formula is not peer-reviewed nor validated. Demonstration purpose only.",
+            "ja": "この式は学会発表のデモンストレーション用に作成されており、査読・検証されているものではありません。"
+        },
+        "foodtype": "milk",
+        "references": {},
+        "inputs": [
+            {
+                "name": "Protein",
+                "type": "proteindose",
+                "caption": {
+                    "en": "Milk protein dose",
+                    "ja": "牛乳タンパク量"
+                },
+                "items": [
+                    [ {"en": "1mL Milk", "ja": "牛乳 1mL"}, 33 ],
+                    [ {"en": "3mL Milk", "ja": "牛乳 3mL"}, 100 ],
+                    [ {"en": "Milk-kona® 100 egg powder", "ja": "ミルクこな® 100"}, 100 ],
+                    [ {"en": "25mL Milk", "ja": "牛乳 25mL"}, 825 ],
+                    [ {"en": "50mL Milk", "ja": "牛乳 50mL"}, 1650 ],
+                    [ {"en": "100mL Milk", "ja": "牛乳 100mL"}, 3300 ],
+                    [ {"en": "200mL Milk", "ja": "牛乳 200mL"}, 6600 ]
+                ]
+            },
+            {
+                "name": "age",
+                "type": "age",
+                "min": 0.5,
+                "max": 13
+            },
+            {
+                "name": "sex",
+                "type": "sex"
+            },
+            {
+                "name": "HasHistory",
+                "type": "boolean",
+                "caption": "@ImmediateHist"
+            },
+            {
+                "name": "IgE",
+                "type": "IgE"
+            },
+            {
+                "name": "Milk",
+                "type": "sIgE",
+                "caption": {
+                    "en": "Milk sIgE",
+                    "ja": "牛乳特異的IgE"
+                },
+                "mode": "primary"
+            }
+        ],
+        "output": {
+            "mode": "ed",
+            "result": {
+                "mode": "logistic",
+                "intercept": -5.4529,
+                "beta": {
+                    "age": 0.0017,
+                    "male": -0.2738,
+                    "HasHistory": 0.6151,
+                    "LogIgE": -0.6146,
+                    "LogProtein": 0.9056,
+                    "LogMilk": 1.9905
+                }
+            }
+        }
+    },
+    {
+        "name": "kcrt-wheat-bmd-2024",
+        "title": {
+            "en": "Wheat OFC (BMD)",
+            "ja": "小麦 完全除去中 (BMD)"
+        },
+        "shorttitle": {
+            "en": "Wheat BMD",
+            "ja": "小麦 BMD"
+        },
+        "info": "「食物経口負荷試験の標準的施行方法の確立と普及を目指す研究」研究班",
+        "note": {
+            "en": "This formula is not peer-reviewed nor validated. Demonstration purpose only.",
+            "ja": "この式は学会発表のデモンストレーション用に作成されており、査読・検証されているものではありません。"
+        },
+        "foodtype": "wheat",
+        "references": {},
+        "inputs": [
+            {
+                "name": "Protein",
+                "type": "proteindose",
+                "caption": {
+                    "en": "Wheat protein dose",
+                    "ja": "小麦タンパク量"
+                },
+                "items": [
+                    [ {"en": "0.5g of Udon noodle", "ja": "うどん 0.5g"}, 13 ],
+                    [ {"en": "2g of Udon noodle", "ja": "うどん 2g"}, 52 ],
+                    [ {"en": "15g of Udon noodle", "ja": "うどん 15g"}, 390 ],
+                    [ {"en": "50g of Udon noodle", "ja": "うどん 50g"}, 1300 ],
+                    [ {"en": "100g of Udon noodle", "ja": "うどん 100g"}, 2600 ],
+                    [ {"en": "200g of Udon noodle", "ja": "うどん 200g"}, 5200 ],
+                    [ {"en": "10g [dry weight] of Pasta", "ja": "パスタ(乾) 10g"}, 540],
+                    [ {"en": "50g [dry weight] of Pasta", "ja": "パスタ(乾) 50g"}, 2700],
+                    [ {"en": "100g [dry weight] of Pasta", "ja": "パスタ(乾) 100g"}, 5400],
+                    [ {"en": "1cm³ of bread", "ja": "食パン 1cm³"}, 22],
+                    [ {"en": "One slice of bread", "ja": "食パン 1枚"}, 4900]
+                ]
+            },
+            {
+                "name": "age",
+                "type": "age",
+                "min": 0.5,
+                "max": 13
+            },
+            {
+                "name": "sex",
+                "type": "sex"
+            },
+            {
+                "name": "HasHistory",
+                "type": "boolean",
+                "caption": "@ImmediateHist"
+            },
+            {
+                "name": "IgE",
+                "type": "IgE"
+            },
+            {
+                "name": "Wheat",
+                "type": "sIgE",
+                "caption": {
+                    "en": "Wheat sIgE",
+                    "ja": "小麦特異的IgE"
+                },
+                "mode": "primary"
+            },
+            {
+                "name": "w5",
+                "type": "sIgE",
+                "caption": {
+                    "en": "ω5 sIgE",
+                    "ja": "ω5 特異的IgE"
+                }
+            }
+        ],
+        "output": {
+            "mode": "ed",
+            "result": {
+                "mode": "logistic",
+                "intercept": -4.2015,
+                "beta": {
+                    "age": 0.2901,
+                    "male": -0.2004,
+                    "HasHistory": 0.9940,
+                    "LogIgE": -1.9728,
+                    "LogProtein": 1.1122,
+                    "LogWheat": 1.5376,
+                    "Logw5": 1.2698
+                }
+            }
+        }
+    },
+    {
         "name": "kcrt-egg",
         "title": {
             "en": "Hen's egg step-up from 1g to 1/2 egg",
@@ -370,381 +626,6 @@
                 "beta": {
                     "LogTarako": 0.000,
                     "TarakoIkuraRatio": 1.6542
-                }
-            }
-        }
-    },
-    {
-        "name": "kcrt-egg-bmd-eliminated",
-        "title": {
-            "en": "Heated egg OFC (BMD) in complete elimination diet",
-            "ja": "加熱鶏卵 BMD (完全除去)"
-        },
-        "shorttitle": {
-            "en": "Egg BMD (eliminated)",
-            "ja": "鶏卵 BMD (完全除去)"
-        },
-        "info": "対象: 完全除去中, 「食物経口負荷試験の標準的施行方法の確立と普及を目指す研究」研究班",
-        "foodtype": "egg",
-        "references": {},
-        "inputs": [
-            {
-                "name": "Protein",
-                "type": "proteindose",
-                "caption": {
-                    "en": "Heated egg white protein dose",
-                    "ja": "加熱卵白タンパク量"
-                },
-                "items": [
-                    [ "Whole egg 1g", 70 ],
-                    [ "Whole egg 2g", 140 ],
-                    [ "Egg white 1g", 100 ],
-                    [ "Egg white 2g", 200 ],
-                    [ "One egg yolk as binder", 150 ],
-                    [ "Whole egg 1/8 piece", 570 ],
-                    [ "One whole egg", 4560 ],
-                    [ "Tama-kona® 25 egg powder", 17 ],
-                    [ "Tama-kona® 250 egg powder", 174 ],
-                    [ "Tama-kona® 750 egg powder", 522 ]
-                ]
-            },
-            {
-                "name": "age",
-                "type": "age",
-                "min": 0.5,
-                "max": 13
-            },
-            {
-                "name": "sex",
-                "type": "sex"
-            },
-            {
-                "name": "AD",
-                "type": "boolean",
-                "caption": "@Atopic dermatitis"
-            },
-            {
-                "name": "BA",
-                "type": "boolean",
-                "caption": "@Bronchial asthma"
-            },
-            {
-                "name": "AR",
-                "type": "boolean",
-                "caption": "@Allergic rhinitis"
-            },
-            {
-                "name": "AnHist",
-                "type": "boolean",
-                "caption": "@History of anaphylaxis"
-            },
-            {
-                "name": "IgE",
-                "type": "IgE"
-            },
-            {
-                "name": "EW",
-                "type": "sIgE",
-                "caption": {
-                    "en": "Egg white sIgE",
-                    "ja": "卵白特異的IgE"
-                }
-            },
-            {
-                "name": "OVM",
-                "type": "sIgE",
-                "caption": {
-                    "en": "Ovomucoid sIgE",
-                    "ja": "オボムコイド特異的IgE"
-                },
-                "mode": "primary"
-            }
-        ],
-        "output": {
-            "mode": "ed",
-            "result": {
-                "mode": "logistic",
-                "intercept": -5.3769,
-                "beta": {
-                    "age": 0.4676,
-                    "male": 0.101,
-                    "AD": 0.49672,
-                    "BA": 0.999,
-                    "AR": -0.1741,
-                    "AnHist": 0.279,
-                    "LogIgE": -0.856,
-                    "LogProtein": 1.3152,
-                    "LogEW": 0.5635,
-                    "LogOVM": 1.1412477
-                }
-            }
-        }
-    },
-    {
-        "name": "kcrt-egg-bmd-2024",
-        "title": {
-            "en": "Heated egg OFC (BMD)",
-            "ja": "加熱鶏卵 BMD"
-        },
-        "shorttitle": {
-            "en": "Egg BMD",
-            "ja": "鶏卵 BMD"
-        },
-        "info": "「食物経口負荷試験の標準的施行方法の確立と普及を目指す研究」研究班",
-        "foodtype": "egg",
-        "references": {},
-        "inputs": [
-            {
-                "name": "Protein",
-                "type": "proteindose",
-                "caption": {
-                    "en": "Heated egg white protein dose",
-                    "ja": "加熱卵白タンパク量"
-                },
-                "items": [
-                    [ "Whole egg 1g", 70 ],
-                    [ "Whole egg 2g", 140 ],
-                    [ "Egg white 1g", 100 ],
-                    [ "Egg white 2g", 200 ],
-                    [ "One egg yolk as binder", 150 ],
-                    [ "Whole egg 1/8 piece", 570 ],
-                    [ "One whole egg", 4560 ],
-                    [ "Tama-kona® 25 egg powder", 17 ],
-                    [ "Tama-kona® 250 egg powder", 174 ],
-                    [ "Tama-kona® 750 egg powder", 522 ]
-                ]
-            },
-            {
-                "name": "age",
-                "type": "age",
-                "min": 0.5,
-                "max": 13
-            },
-            {
-                "name": "sex",
-                "type": "sex"
-            },
-            {
-                "name": "HasHistory",
-                "type": "boolean",
-                "caption": "History of immediate type reaction"
-            },
-            {
-                "name": "IsCompleteElim",
-                "type": "boolean",
-                "caption": "Complete elimination diet"
-            },
-            {
-                "name": "IgE",
-                "type": "IgE"
-            },
-            {
-                "name": "EW",
-                "type": "sIgE",
-                "caption": {
-                    "en": "Egg white sIgE",
-                    "ja": "卵白特異的IgE"
-                }
-            },
-            {
-                "name": "OVM",
-                "type": "sIgE",
-                "caption": {
-                    "en": "Ovomucoid sIgE",
-                    "ja": "オボムコイド特異的IgE"
-                },
-                "mode": "primary"
-            }
-        ],
-        "output": {
-            "mode": "ed",
-            "result": {
-                "mode": "logistic",
-                "intercept": -7.8094,
-                "beta": {
-                    "age": 0.1325,
-                    "male": 0.0625,
-                    "HasHistory": 0.2644,
-                    "IsCompleteElim": 1.6902,
-                    "LogIgE": -0.6287,
-                    "LogProtein": 0.7808,
-                    "LogEW": 0.5467,
-                    "LogOVM": 1.1559
-                }
-            }
-        }
-    },
-    {
-        "name": "kcrt-milk-bmd-2024",
-        "title": {
-            "en": "Milk OFC (BMD)",
-            "ja": "牛乳 BMD"
-        },
-        "shorttitle": {
-            "en": "Milk BMD",
-            "ja": "牛乳 BMD"
-        },
-        "info": "「食物経口負荷試験の標準的施行方法の確立と普及を目指す研究」研究班",
-        "foodtype": "milk",
-        "references": {},
-        "inputs": [
-            {
-                "name": "Protein",
-                "type": "proteindose",
-                "caption": {
-                    "en": "Milk protein dose",
-                    "ja": "牛乳タンパク量"
-                },
-                "items": [
-                    [ "1mL Milk", 33 ],
-                    [ "3mL Milk", 100 ],
-                    [ "Milk-kona® 100 egg powder", 100 ],
-                    [ "25mL Milk", 825 ],
-                    [ "50mL Milk", 1650 ],
-                    [ "100mL Milk", 3300 ],
-                    [ "200mL Milk", 6600 ]
-                ]
-            },
-            {
-                "name": "age",
-                "type": "age",
-                "min": 0.5,
-                "max": 13
-            },
-            {
-                "name": "sex",
-                "type": "sex"
-            },
-            {
-                "name": "HasHistory",
-                "type": "boolean",
-                "caption": "History of immediate type reaction"
-            },
-            {
-                "name": "IsCompleteElim",
-                "type": "boolean",
-                "caption": "Complete elimination diet"
-            },
-            {
-                "name": "IgE",
-                "type": "IgE"
-            },
-            {
-                "name": "sIgE",
-                "type": "sIgE",
-                "caption": {
-                    "en": "Milk sIgE",
-                    "ja": "牛乳特異的IgE"
-                }
-            }
-        ],
-        "output": {
-            "mode": "ed",
-            "result": {
-                "mode": "logistic",
-                "intercept": -5.2209,
-                "beta": {
-                    "age": 0.0536,
-                    "male": -0.0790,
-                    "HasHistory": 0.1010,
-                    "IsCompleteElim": 1.8050,
-                    "LogIgE": -1.2215,
-                    "LogProtein": 0.7208,
-                    "LogsIgE": 2.2369
-                }
-            }
-        }
-    },
-    {
-        "name": "kcrt-wheat-bmd-2024",
-        "title": {
-            "en": "Wheat OFC (BMD)",
-            "ja": "小麦 OFC BMD"
-        },
-        "shorttitle": {
-            "en": "Wheat OFC (BMD)",
-            "ja": "小麦 OFC (BMD)"
-        },
-        "info": "「食物経口負荷試験の標準的施行方法の確立と普及を目指す研究」研究班",
-        "foodtype": "wheat",
-        "references": {},
-        "inputs": [
-            {
-                "name": "Protein",
-                "type": "proteindose",
-                "caption": {
-                    "en": "Wheat protein dose",
-                    "ja": "小麦タンパク量"
-                },
-                "items": [
-                    [ "0.5g of Udon noodle", 13 ],
-                    [ "2g of Udon noodle", 52 ],
-                    [ "15g of Udon noodle", 390 ],
-                    [ "50g of Udon noodle", 1300 ],
-                    [ "100g of Udon noodle", 2600 ],
-                    [ "200g of Udon noodle", 5200 ],
-                    [ "10g [dry weight] of Pasta", 540],
-                    [ "50g [dry weight] of Pasta", 2700],
-                    [ "100g [dry weight] of Pasta", 5400],
-                    [ "1cm³ of bread", 22],
-                    [ "One slice of bread", 4900]
-                ]
-            },
-            {
-                "name": "age",
-                "type": "age",
-                "min": 0.5,
-                "max": 13
-            },
-            {
-                "name": "sex",
-                "type": "sex"
-            },
-            {
-                "name": "HasHistory",
-                "type": "boolean",
-                "caption": "History of immediate type reaction"
-            },
-            {
-                "name": "IsCompleteElim",
-                "type": "boolean",
-                "caption": "Complete elimination diet"
-            },
-            {
-                "name": "IgE",
-                "type": "IgE"
-            },
-            {
-                "name": "WheatsIgE",
-                "type": "sIgE",
-                "caption": {
-                    "en": "Wheat sIgE",
-                    "ja": "小麦特異的IgE"
-                }
-            },
-            {
-                "name": "w5sIgE",
-                "type": "sIgE",
-                "caption": {
-                    "en": "ω5 sIgE",
-                    "ja": "ω5 特異的IgE"
-                }
-            }
-        ],
-        "output": {
-            "mode": "ed",
-            "result": {
-                "mode": "logistic",
-                "intercept": -5.8573,
-                "beta": {
-                    "age": 0.0830,
-                    "male": -0.0455,
-                    "HasHistory": 0.6924,
-                    "IsCompleteElim": 1.9551,
-                    "LogIgE": -1.1795,
-                    "LogProtein": 0.8027,
-                    "LogWheatsIgE": 1.5204,
-                    "Logw5sIgE": 0.8837
                 }
             }
         }

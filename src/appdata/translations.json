@@ -102,6 +102,10 @@
   "@Allergic rhinitis": {
     "ja": "アレルギー性鼻炎"
   },
+  "@ImmediateHist": {
+    "en": "History of immediate type reaction",
+    "ja": "即時型反応の既往"
+  },
   "@History of anaphylaxis": {
     "ja": "アナフィラキシーの既往"
   },
