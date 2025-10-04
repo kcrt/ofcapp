@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Text } from 'react-native';
 import { Stack } from 'expo-router';
 import SquareButton, { SquareButtonProps } from '@/components/SquareButton';
 import { getDisplayString, MultilangString } from '@/utils/i18n';
@@ -32,6 +32,7 @@ export default function Home() {
           />
         )}
       />
+      <Text style={styles.developmentText}>画面は開発中の物です</Text>
     </View>
   );
 }
@@ -43,6 +44,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     backgroundColor: '#f0f0f0',
+  },
+  developmentText: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 10,
   },
   grid: {
     flexDirection: 'row',

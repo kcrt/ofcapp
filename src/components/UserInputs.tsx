@@ -89,7 +89,7 @@ export default function UserInputs({ inputs, currentValues, onValueChange }: Use
                   ]}
                   value={String(value ?? '')}
                   onChangeText={(text) => onValueChange(input.name, text)}
-                  keyboardType="numeric"
+                  keyboardType="decimal-pad"
                 />
                 {unit && (
                   <View style={styles.unitDisplayBox}>
@@ -120,7 +120,7 @@ export default function UserInputs({ inputs, currentValues, onValueChange }: Use
                   style={[styles.input, styles.inputWithUnit]}
                   value={currentValue}
                   onChangeText={(text) => onValueChange(input.name, text)}
-                  keyboardType="numeric"
+                  keyboardType="decimal-pad"
                   placeholder="e.g. 100"
                 />
                 {unit && (
