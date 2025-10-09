@@ -3,7 +3,7 @@ const { getDefaultConfig } = require('expo/metro-config');
 /** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
 
-// Configure for GitHub Pages deployment
-config.transformer.publicPath = '/ofcapp/';
+// Deployed at `https://ofcapp.kcrt.net/`
+config.transformer.publicPath = '/';
 
 module.exports = config;

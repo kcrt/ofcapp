@@ -32,7 +32,8 @@ export default function Home() {
           />
         )}
       />
-      <Text style={styles.developmentText}>画面は開発中の物です</Text>
+      <Text style={styles.developmentText}>画面は開発中の物です。</Text>
+      <Text style={styles.developmentText}>現時点で、臨床での使用を想定したものではありません。</Text>
     </View>
   );
 }
