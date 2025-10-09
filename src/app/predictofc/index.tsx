@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { Link, Stack } from 'expo-router';
+import { Link } from 'expo-router';
 import formulas, { type Formula } from '@/utils/formulas';
 import { getDisplayString as t } from '@/utils/i18n';
+import StackScreenWithMenu from '@/components/StackScreenWithMenu';
 
 export default function ProbabilityPage() {
   const renderItem = ({ item }: { item: Formula }) => (
@@ -16,7 +17,7 @@ export default function ProbabilityPage() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: t('@PredictOFC') }} />
+      <StackScreenWithMenu options={{ title: t('@PredictOFC') }} />
       <Text style={styles.header}>{t('@AvailableCurves')}</Text>
       <FlatList
         data={formulas.filter((f) => f.output.mode === "ofc" || f.output.mode === "ed")}

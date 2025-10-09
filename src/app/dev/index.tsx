@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { SettingsManager, AppMode } from '@/utils/settings';
+import SquareButton from '@/components/SquareButton';
+import StackScreenWithMenu from '@/components/StackScreenWithMenu';
 
 const devPages = [
   {
@@ -12,10 +15,51 @@ const devPages = [
   },
 ];
 
+const modes: Array<{ mode: AppMode; icon: keyof typeof Ionicons.glyphMap }> = [
+  { mode: 'normal', icon: 'person-outline' },
+  { mode: 'super', icon: 'flash-outline' },
+  { mode: 'god', icon: 'thunderstorm-outline' },
+];
+
 export default function DevIndex() {
+  const [currentMode, setCurrentMode] = useState<AppMode>('normal');
+
+  useEffect(() => {
+    loadMode();
+  }, []);
+
+  const loadMode = async () => {
+    const mode = await SettingsManager.getMode();
+    setCurrentMode(mode);
+  };
+
+  const handleModeChange = async (mode: AppMode) => {
+    await SettingsManager.setMode(mode);
+    setCurrentMode(mode);
+  };
+
   return (
-    <ScrollView style={styles.container}>
+    <>
+      <StackScreenWithMenu options={{ title: 'Development Tools' }} />
+      <ScrollView style={styles.container}>
       <Text style={styles.title}>Development Tools</Text>
+
+      <View style={styles.modeSelector}>
+        <Text style={styles.modeLabel}>Mode:</Text>
+        <View style={styles.modeButtons}>
+          {modes.map(({ mode, icon }) => (
+            <View key={mode} style={styles.modeButtonWrapper}>
+              <SquareButton
+                title={mode}
+                iconName={`Ionicons.${icon}`}
+                size={90}
+                onPress={() => handleModeChange(mode)}
+                mode={currentMode === mode ? 'current' : undefined}
+              />
+            </View>
+          ))}
+        </View>
+      </View>
 
       <View style={styles.grid}>
         {devPages.map((page, index) => (
@@ -29,6 +73,7 @@ export default function DevIndex() {
         ))}
       </View>
     </ScrollView>
+    </>
   );
 }
 
@@ -44,6 +89,31 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 30,
     color: '#333333',
+  },
+  modeSelector: {
+    backgroundColor: '#ffffff',
+    padding: 15,
+    borderRadius: 12,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  modeLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 10,
+    color: '#333333',
+  },
+  modeButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+  },
+  modeButtonWrapper: {
+    margin: 5,
   },
   grid: {
     flexDirection: 'row',

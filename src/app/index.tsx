@@ -17,7 +17,11 @@ const buttons: { title: MultilangString; href: string; disabled?: boolean, iconN
 export default function Home() {
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: "OFCApp" }} />
+      <Stack.Screen options={{
+        title: "OFCApp",
+        headerLeft: () => null, // for web
+        headerBackVisible: false // for iOS
+      }} />
       <FlatList
         numColumns={2}
         data={buttons}

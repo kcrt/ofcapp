@@ -13,7 +13,7 @@ export interface SquareButtonProps {
   size?: number;
   disabled?: boolean;
   onPress?: () => void;
-  mode?: 'demo' | 'beta' | 'important' | 'new';
+  mode?: 'demo' | 'beta' | 'important' | 'new' | 'current';
 }
 
 // see `https://icons.expo.fyi/Index` to find icon
@@ -61,6 +61,7 @@ export default function SquareButton({ title, href, iconName, size, disabled, on
           mode === 'beta' && styles.betaRibbon,
           mode === 'important' && styles.importantRibbon,
           mode === 'new' && styles.newRibbon,
+          mode === 'current' && styles.currentRibbon,
         ]}>
           <Text style={[
             styles.ribbonText,
@@ -68,6 +69,7 @@ export default function SquareButton({ title, href, iconName, size, disabled, on
             mode === 'beta' && styles.betaText,
             mode === 'important' && styles.importantText,
             mode === 'new' && styles.newText,
+            mode === 'current' && styles.currentText,
           ]}>
             {mode.toUpperCase()}
           </Text>
@@ -140,6 +142,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#38A169',
     borderColor: '#2F855A',
   },
+  currentRibbon: {
+    backgroundColor: '#4A90E2',
+    borderColor: '#2C5282',
+  },
   ribbonText: {
     fontSize: 10,
     fontWeight: 'bold',
@@ -155,6 +161,9 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   newText: {
+    color: '#FFFFFF',
+  },
+  currentText: {
     color: '#FFFFFF',
   },
 });

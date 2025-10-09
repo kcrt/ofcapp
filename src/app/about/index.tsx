@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Image, TouchableWithoutFeedback } from "react-native";
-import { Stack, router } from "expo-router";
+import { router } from "expo-router";
 import { useState } from "react";
-import HeaderBackButton from "@/components/HeaderBackButton";
 import Constants from 'expo-constants';
 import packageJson from '@/../package.json';
+import StackScreenWithMenu from "@/components/StackScreenWithMenu";
 
 export default function About() {
     const appName = Constants.expoConfig?.name || 'OFCApp';
@@ -22,7 +22,7 @@ export default function About() {
 
     return (
         <View style={styles.container}>
-            <Stack.Screen
+            <StackScreenWithMenu
                 options={{
                     title: `About ${appName}`,
                 }}

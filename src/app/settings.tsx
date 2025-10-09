@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, Platform } from 'react-native';
-import { Stack } from 'expo-router';
-import SquareButton from '@/components/SquareButton';
+import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { getDisplayLanguage, getDisplayString, getSupportedLanguages, setDisplayLanguage } from '@/utils/i18n';
 import { useRouter } from 'expo-router';
 import { SettingsManager } from '@/utils/settings';
 import { Picker } from '@react-native-picker/picker';
+import StackScreenWithMenu from '@/components/StackScreenWithMenu';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Settings() {
   const router = useRouter();
@@ -23,7 +23,14 @@ export default function Settings() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: getDisplayString('@Settings') || 'Settings' }} />
+      <StackScreenWithMenu options={{
+        title: getDisplayString('@Settings') || 'Settings',
+        headerLeft: ({ tintColor }) => (
+          <TouchableOpacity onPress={() => router.push('/')} style={{ marginLeft: 8 }}>
+            <Ionicons name="arrow-back" size={24} color={tintColor} />
+          </TouchableOpacity>
+        ),
+      }} />
 
       <Text style={styles.sectionTitle}>
         {getDisplayString('@Language') || 'Language'}

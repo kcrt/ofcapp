@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, Button } from 'react-native';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import StackScreenWithMenu from '@/components/StackScreenWithMenu';
 
-// Define a maximum width for the page content
-const PAGE_MAX_WIDTH = 600;
 import formulas from '@/utils/formulas';
 import ErrorMessagePage from '@/components/ErrorMessagePage';
 import GraphArea from '@/components/GraphArea';
@@ -13,6 +12,8 @@ import { getDisplayString as t } from '@/utils/i18n';
 import { parseReferenceLink, openLink } from '@/utils/links';
 import { calculateAdjustedIntercept } from '@/utils/calculationHelpers';
 import logistic from '@/utils/mathHelpers';
+
+const PAGE_MAX_WIDTH = 600;
 
 // for static build distribution
 export async function generateStaticParams(): Promise<{ modelname: string }[]> {
@@ -67,7 +68,7 @@ function PrimaryFactorSelector({
 
 
 export default function ProbabilityCurvePage() {
-
+  const router = useRouter();
   const { modelname } = useLocalSearchParams<{ modelname: string }>();
   const model = formulas.find(f => f.name === modelname);
   if (!model) {
@@ -178,7 +179,11 @@ export default function ProbabilityCurvePage() {
 
   return (
     <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContentContainer}>
-      <Stack.Screen options={{ title: displayModelTitle }} />
+      <StackScreenWithMenu
+        options={{
+          title: displayModelTitle,
+        }}
+      />
 
       {model.output.result.graph !== "hide" && primaryInput && (
         <>

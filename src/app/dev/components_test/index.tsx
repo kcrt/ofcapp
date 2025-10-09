@@ -2,23 +2,27 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
 import SquareButton from '@/components/SquareButton';
+import StackScreenWithMenu from '@/components/StackScreenWithMenu';
 
 export default function ComponentsTestIndex() {
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Component Tests</Text>
-      <Text style={styles.subtitle}>Select a component to test</Text>
+    <>
+      <StackScreenWithMenu options={{ title: 'Component Tests' }} />
+      <ScrollView style={styles.container}>
+        <Text style={styles.title}>Component Tests</Text>
+        <Text style={styles.subtitle}>Select a component to test</Text>
 
-      <View style={styles.buttonGrid}>
-        <Link href="/dev/components_test/square_button" asChild>
-          <SquareButton title="SquareButton" iconName="Ionicons.cube" />
-        </Link>
+        <View style={styles.buttonGrid}>
+          <Link href="/dev/components_test/square_button" asChild>
+            <SquareButton title="SquareButton" iconName="Ionicons.cube" />
+          </Link>
 
-        <Link href="/dev/components_test/user_inputs" asChild>
-          <SquareButton title="UserInputs" iconName="Ionicons.list" />
-        </Link>
-      </View>
-    </ScrollView>
+          <Link href="/dev/components_test/user_inputs" asChild>
+            <SquareButton title="UserInputs" iconName="Ionicons.list" />
+          </Link>
+        </View>
+      </ScrollView>
+    </>
   );
 }
 

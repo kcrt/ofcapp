@@ -1,17 +1,22 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export type AppMode = 'normal' | 'super' | 'god';
+
 export interface AppSettings {
   language: string;
+  mode: AppMode;
   // Add more settings here as needed
 }
 
 const SETTINGS_KEYS = {
   LANGUAGE: '@ofcapp_language',
+  MODE: '@ofcapp_mode',
   // Add more setting keys here
 } as const;
 
 const DEFAULT_SETTINGS: AppSettings = {
   language: 'en',
+  mode: 'normal',
 };
 
 export class SettingsManager {
@@ -81,5 +86,13 @@ export class SettingsManager {
 
   static async setLanguage(language: string): Promise<void> {
     await this.setSetting('language', language);
+  }
+
+  static async getMode(): Promise<AppMode> {
+    return await this.getSetting('mode');
+  }
+
+  static async setMode(mode: AppMode): Promise<void> {
+    await this.setSetting('mode', mode);
   }
 }
