@@ -14,6 +14,13 @@ import { parseReferenceLink, openLink } from '@/utils/links';
 import { calculateAdjustedIntercept } from '@/utils/calculationHelpers';
 import logistic from '@/utils/mathHelpers';
 
+// for static build distribution
+export async function generateStaticParams(): Promise<{ modelname: string }[]> {
+  return formulas.map((formula) => ({
+    modelname: formula.name,
+  }));
+}
+
 // Component for selecting the primary factor
 interface PrimaryFactorSelectorProps {
   primaryFactorCandidates: FormulaInputSchema[];
